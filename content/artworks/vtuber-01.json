@@ -3,7 +3,7 @@
   "category": "VTuber Models",
   "order": 100,
   "visible": true,
-  "image": "assets/originals/vtuber-01.png",
-  "preview": "assets/previews/vtuber-01.png",
+  "image": "/assets/originals/vtuber-01.png",
+  "preview": "/assets/previews/vtuber-01.png",
   "alt": "Black-and-white lineart of a full-body character with bat wings, small horns, long layered pigtails, shorts, a tail and mismatched leg wear, standing front-facing on white."
 }

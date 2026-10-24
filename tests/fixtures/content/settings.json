@@ -1,0 +1,122 @@
+{
+  "categories": [
+    {
+      "name": "Illustration",
+      "color": "#f28db2"
+    },
+    {
+      "name": "VTuber Models",
+      "color": "#f4d63a"
+    },
+    {
+      "name": "Character Design",
+      "color": "#b7d99a",
+      "shadowColor": "#6aa04e"
+    }
+  ],
+  "menu": [
+    {
+      "title": "ARTWORK",
+      "visible": true,
+      "rows": [
+        {
+          "label": "character design ",
+          "note": "depending on complexity",
+          "price": "50+ ",
+          "detail": ""
+        },
+        {
+          "label": "refsheet ",
+          "note": "depending on complexity",
+          "price": "USD 50+",
+          "detail": ""
+        },
+        {
+          "label": "Headshot",
+          "note": "",
+          "price": "USD 15",
+          "detail": ""
+        },
+        {
+          "label": "Bust",
+          "note": "",
+          "price": "USD 25",
+          "detail": ""
+        },
+        {
+          "label": "Full body",
+          "note": "",
+          "price": "USD 50",
+          "detail": ""
+        },
+        {
+          "label": "Chibi",
+          "note": "",
+          "price": "USD 50",
+          "detail": ""
+        },
+        {
+          "label": "Emotes (non-animated)",
+          "note": "",
+          "price": "USD 10 each ",
+          "detail": "or 6 for USD 50"
+        }
+      ],
+      "note": "",
+      "extra": ""
+    },
+    {
+      "title": "RIGGING+MODEL",
+      "visible": true,
+      "rows": [
+        {
+          "label": "chibi",
+          "note": "",
+          "price": "USD 100",
+          "detail": ""
+        },
+        {
+          "label": "halfbody",
+          "note": "",
+          "price": "USD 150",
+          "detail": ""
+        },
+        {
+          "label": "fullbody",
+          "note": "",
+          "price": "USD 200",
+          "detail": ""
+        }
+      ],
+      "note": "Each model will come with 4 basic toggles: sad, mad, confused, and surprised.",
+      "extra": ""
+    },
+    {
+      "title": "MODEL ART/RIGGING",
+      "visible": true,
+      "rows": [
+        {
+          "label": "Chibi/half body",
+          "note": "",
+          "price": "USD 75",
+          "detail": ""
+        },
+        {
+          "label": "Fullbody",
+          "note": "",
+          "price": "120 ",
+          "detail": ""
+        }
+      ],
+      "note": "",
+      "extra": ""
+    },
+    {
+      "title": "EXTRA PARTS, TOGGLES, GIMMICKS",
+      "visible": true,
+      "rows": [],
+      "note": "",
+      "extra": "+USD 10 each"
+    }
+  ]
+}

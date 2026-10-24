@@ -3,7 +3,7 @@
   "category": "Illustration",
   "order": 20,
   "visible": true,
-  "image": "assets/originals/art-02.png",
-  "preview": "assets/previews/art-02.png",
+  "image": "/assets/originals/art-02.png",
+  "preview": "/assets/previews/art-02.png",
   "alt": "Tight close-up of a pink-haired character with a toothy grin, a headset microphone and mismatched eyes, framed by green leaves and yellow halftone stars on blue polka dots."
 }

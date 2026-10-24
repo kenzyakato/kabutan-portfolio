@@ -5,8 +5,19 @@ import os from 'node:os';
 import path from 'node:path';
 import { root, build, loadContent, mediaInfo } from '../scripts/build.mjs';
 
+// Migration assertions use the original snapshot, never the artist's editable content.
+async function fixtureWorkspace() {
+  const temp=await mkdtemp(path.join(os.tmpdir(),'kabutan-fixture-'));
+  for (const dir of ['assets','templates']) await cp(path.join(root,dir),path.join(temp,dir),{recursive:true});
+  await cp(path.join(root,'tests/fixtures/content'),path.join(temp,'content'),{recursive:true});
+  return temp;
+}
+
 test('migration preserves 23 works, categories, original price wording and all source hashes', async () => {
-  const {artworks,settings}=await loadContent();
+  const temp=await fixtureWorkspace();
+  let artworks,settings;
+  try { ({artworks,settings}=await loadContent(temp)); }
+  finally { await rm(temp,{recursive:true,force:true}); }
   assert.equal(artworks.length,23);
   assert.deepEqual(Object.fromEntries(settings.categories.map(c => [c.name,artworks.filter(a=>a.category===c.name).length])),{'Illustration':9,'VTuber Models':6,'Character Design':8});
   assert.equal(settings.menu[0].rows[0].price,'50+ ');
@@ -22,7 +33,8 @@ test('migration preserves 23 works, categories, original price wording and all s
 test('hide/restore, reorder, replacement, categories, price edits and empty gallery build safely', async () => {
   const temp=await mkdtemp(path.join(os.tmpdir(),'kabutan-cms-'));
   try {
-    for (const dir of ['content','assets','templates']) await cp(path.join(root,dir),path.join(temp,dir),{recursive:true});
+    for (const dir of ['assets','templates']) await cp(path.join(root,dir),path.join(temp,dir),{recursive:true});
+    await cp(path.join(root,'tests/fixtures/content'),path.join(temp,'content'),{recursive:true});
     const file=path.join(temp,'content/artworks/design-01.json');
     const a=JSON.parse(await readFile(file,'utf8'));
     a.visible=false; await writeFile(file,JSON.stringify(a));
@@ -76,6 +88,16 @@ test('rejects disguised SVG content even with a permitted image extension',async
     await writeFile(path.join(temp,'assets/disguised.png'),'<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"></svg>');
     await assert.rejects(mediaInfo('assets/disguised.png',temp),/Unsupported image content/);
   } finally {await rm(temp,{recursive:true,force:true});}
+});
+
+test('editable content uses canonical repo media paths for Tina round trips',async () => {
+  const {artworks}=await loadContent();
+  for (const artwork of artworks) for (const field of ['image','preview']) {
+    if (!artwork[field]) continue;
+    assert.match(artwork[field],/^\/assets\//,'Tina requires a leading slash to resolve and save repo media');
+    assert.ok(!artwork[field].includes('__staging/'),'CDN staging paths must not be committed as repo paths');
+  }
+  assert.deepEqual(await mediaInfo('/assets/originals/art-01.jpg'),await mediaInfo('assets/originals/art-01.jpg'));
 });
 
 test('rejects traversal, external URLs and unsupported image paths',async () => {
