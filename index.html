@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Kabutan — Little Dragon Art Studio (review preview)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=Nunito:wght@400;600;700;800;900&amp;display=swap">
+<style>
+:root{--cream:#fbf4e2;--paper:#fffaf0;--ink:#1e2b1b;--muted:#4a5645;--deep:#2c5226;--green:#4f8a3c;--leaf:#6aa04e;--mint:#b7d99a;--pink:#f28db2;--rasp:#b8436c;--yellow:#f4d63a;--line:#c9bf9f}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);background-image:radial-gradient(#e9dfc3 1.2px,transparent 1.2px);background-size:22px 22px;color:var(--ink);font:400 16px/1.55 'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:var(--deep)}a:hover{color:var(--rasp)}
+:focus-visible{outline:3px solid var(--rasp);outline-offset:3px;border-radius:10px}
+.h{font-family:'Baloo 2',sans-serif;font-weight:800;line-height:.95;color:var(--deep);margin:0}
+.wrap{max-width:1280px;margin:0 auto;padding-left:clamp(20px,4vw,48px);padding-right:clamp(20px,4vw,48px)}
+.banner{background:var(--ink);color:var(--cream);font-weight:700;font-size:14px;text-align:center;padding:10px 20px;display:flex;justify-content:center;align-items:center;gap:10px;flex-wrap:wrap}
+.banner b{background:var(--yellow);color:var(--ink);border-radius:999px;padding:2px 10px;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:18px;padding-bottom:18px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--deep)}
+.logo i{width:40px;height:40px;border-radius:14px;background:var(--leaf);border:3px solid var(--deep);display:grid;place-items:center;transform:rotate(-6deg);box-shadow:3px 3px 0 var(--pink)}
+.logo span{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;line-height:1}
+.logo small{display:block;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav a{text-decoration:none;font-weight:800;font-size:15px;padding:10px 14px;border-radius:999px}
+nav a:hover{background:var(--paper)}
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(40px,6vw,80px);align-items:center;padding-top:clamp(16px,4vw,48px);padding-bottom:clamp(72px,8vw,112px)}
+.tag{display:inline-block;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:16px;background:var(--yellow);padding:6px 16px 4px;border-radius:12px;transform:rotate(-3deg);box-shadow:3px 3px 0 var(--deep)}
+.hero-copy{min-width:0;container-type:inline-size}
+.hero h1{font-size:clamp(56px,7.5vw,140px);font-size:clamp(56px,20cqi,160px);padding-right:12px;white-space:nowrap;line-height:.82;letter-spacing:-.02em;color:var(--green);text-shadow:5px 5px 0 var(--pink),10px 10px 0 var(--deep);margin:22px 0 0}
+.lede{font-size:clamp(18px,1.6vw,21px);max-width:30ch;margin:28px 0 22px;text-wrap:pretty}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.pill{font:inherit;font-weight:800;font-size:15px;cursor:pointer;border:2.5px solid var(--deep);border-radius:999px;padding:9px 16px;min-height:44px;display:inline-flex;align-items:center;gap:8px;background:var(--paper);color:var(--ink);transition:transform .18s ease}
+.pill:hover{transform:translateY(-2px)}
+.btn{text-decoration:none;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:19px;padding:12px 24px 10px;border-radius:16px;transition:transform .18s ease}
+.btn:hover{transform:translateY(-2px)}
+.btn.solid{background:var(--deep);color:var(--cream);box-shadow:4px 4px 0 var(--pink)}
+.btn.line{background:var(--paper);border:2.5px solid var(--deep);padding:10px 22px 8px}
+.stage{position:relative;min-width:0;padding:4% 3% 13% 7%}
+.stripes{position:absolute;inset:0 0 6% 2%;border-radius:32px;transform:rotate(-3deg);background:repeating-linear-gradient(135deg,var(--leaf) 0 14px,var(--cream) 14px 28px);border:3px solid var(--deep)}
+.frame{position:relative;display:block;width:100%;padding:12px;border:3px solid var(--deep);border-radius:22px;background:var(--paper);cursor:zoom-in;transform:rotate(1.5deg);box-shadow:8px 8px 0 var(--deep);transition:transform .25s ease}
+.frame:hover{transform:rotate(.5deg) translateY(-3px)}
+.frame img{width:100%;height:auto;border-radius:12px}
+.tape{position:absolute;height:26px;border-radius:3px}
+.sticker{position:absolute;left:-2%;bottom:0;width:clamp(110px,30%,210px);padding:6px;border:3px solid var(--deep);border-radius:28px;background:#fff;cursor:zoom-in;transform:rotate(-9deg);box-shadow:5px 5px 0 var(--pink);transition:transform .25s ease}
+.sticker:hover{transform:rotate(-4deg) scale(1.04)}
+.sticker img{width:100%;height:auto;border-radius:20px}
+.zoom{position:absolute;right:4%;bottom:2%;font-family:'Baloo 2',sans-serif;font-weight:800;font-size:16px;background:var(--yellow);border:2.5px solid var(--deep);border-radius:12px;padding:4px 12px 2px;transform:rotate(4deg)}
+section{scroll-margin-top:12px}
+.sechead{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:28px}
+.sechead h2,.big{font-size:clamp(44px,5.5vw,72px)}
+.note{margin:6px 0 0;font-size:15px;color:var(--muted)}
+.pill[aria-pressed=true]{background:var(--deep);color:var(--cream)}
+.pill .n{font-size:12px;border-radius:999px;padding:1px 7px;background:#efe6cc;color:var(--ink)}
+.pill[aria-pressed=true] .n{background:var(--yellow)}
+.grid{columns:3 300px;column-gap:32px}
+.card{margin:0 0 36px;break-inside:avoid}
+.card .art{display:block;width:100%;padding:10px;border:3px solid var(--deep);border-radius:22px;background:var(--paper);cursor:zoom-in;transition:transform .22s ease}
+.card .art:hover{transform:translateY(-4px)}
+.card .art img{width:100%;height:auto;border-radius:13px;background:#efe6cc}
+.card figcaption{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 6px 0;flex-wrap:wrap}
+.card .t{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:19px;line-height:1.2}
+.cat{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border:2px solid var(--deep);border-radius:999px;padding:3px 10px}
+.slot{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;aspect-ratio:1/1;border:3px dashed #8e9a86;border-radius:22px;background:repeating-linear-gradient(135deg,#f4ecd5 0 12px,#efe5ca 12px 24px);color:var(--muted);text-align:center;padding:20px}
+.slot strong{font-family:'Baloo 2',sans-serif;font-size:20px;color:var(--ink)}
+.slot code{font-size:13px;background:var(--paper);border-radius:6px;padding:2px 8px;color:var(--ink)}
+.card.missing .t{color:var(--muted)}
+.comm{background:var(--paper);border-top:3px solid var(--deep);border-bottom:3px solid var(--deep)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:28px;align-items:start}
+.box{background:var(--cream);border:3px solid var(--deep);border-radius:26px;padding:28px 26px 24px;position:relative}
+.box h3{margin:0 0 14px;font-size:28px}
+dl{margin:0}
+dl div{display:flex;justify-content:space-between;gap:12px;padding:11px 0;border-bottom:2px dashed var(--line)}
+dl div:last-child{border-bottom:0;padding-bottom:0}
+dt{font-weight:700}dt small{display:block;font-size:13px;font-weight:600;color:var(--muted)}
+dd{margin:0;text-align:right;font-weight:800}dd small{display:block;font-size:13px;font-weight:700;color:var(--muted)}
+.flag{display:inline-block;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-radius:6px;padding:1px 6px;margin-top:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:0;padding:0;list-style:none}
+.chips li{font-size:14px;font-weight:800;padding:5px 12px;border-radius:999px;border:2px solid var(--deep);background:var(--cream)}
+.links{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:24px}
+.links a{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:var(--ink);border:3px solid var(--deep);border-radius:24px;padding:24px;box-shadow:6px 6px 0 var(--deep);transition:transform .2s ease}
+.links a:hover{transform:translateY(-3px);color:var(--ink)}
+.links b{font-family:'Baloo 2',sans-serif;font-size:32px;line-height:1}
+.contact{position:relative;background:var(--deep);color:var(--cream);border-radius:32px;padding:clamp(32px,5vw,64px);display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:32px;align-items:center;overflow:hidden}
+.contact h2{color:var(--cream);font-size:clamp(34px,4.4vw,58px);line-height:1;text-wrap:balance;margin:14px 0}
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;font-weight:700;color:var(--muted);padding-bottom:40px}
+.lb{position:fixed;inset:0;z-index:50;background:rgba(22,32,20,.95);display:none;flex-direction:column;padding:16px clamp(12px,3vw,32px);color:var(--cream)}
+.lb.open{display:flex}
+.lb .top,.lb .bot{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.lb .img{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:12px 0}
+.lb img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:10px}
+.lb .close{font:inherit;font-weight:800;cursor:pointer;min-height:44px;padding:0 18px;border-radius:999px;border:0;background:var(--cream);color:var(--ink)}
+.lb .nav{font:inherit;font-weight:800;font-size:20px;cursor:pointer;width:48px;height:48px;flex:none;border-radius:50%;border:2.5px solid var(--cream);background:transparent;color:var(--cream)}
+.lb .nav:hover{background:var(--pink);color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:860px){.hero{grid-template-columns:minmax(0,1fr)}.stage{padding:2% 2% 16% 6%}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{transition:none!important;animation:none!important}}
+</style>
+<style>
+#commissions{padding-bottom:clamp(70px,8vw,110px);scroll-margin-top:20px}
+.commission-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px}
+.price-card{min-width:0;background:var(--paper);border:2px solid var(--deep);border-radius:22px;padding:24px;box-shadow:6px 6px 0 var(--pink,#f28db2)}
+.price-card:nth-child(2){box-shadow:6px 6px 0 #f4d63a}.price-card:nth-child(3){box-shadow:6px 6px 0 #b7d99a}
+.price-card h3{font-size:25px;line-height:1.15;margin:0 0 20px;overflow-wrap:anywhere}
+.price-card dl{display:grid;grid-template-columns:minmax(0,1fr) minmax(75px,auto);gap:16px 14px;margin:0}
+.price-card dt,.price-card dd{min-width:0;margin:0;overflow-wrap:anywhere}.price-card dd{text-align:right;font-weight:900;color:var(--deep)}
+.price-card small{display:block;font-size:12px;line-height:1.45;font-weight:700;color:var(--muted);margin-top:3px}
+.price-card p{font-size:14px;line-height:1.6;margin:20px 0 0}.price-card .service-note{margin:-8px 0 20px;color:var(--muted)}
+.price-card.extras{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:20px}.extras h3{margin:0;font-size:22px}.extras .extra-price{font-size:24px;font-weight:900;margin:0;white-space:nowrap;color:var(--deep)}
+@media(max-width:900px){.commission-grid{grid-template-columns:1fr 1fr}.price-card:nth-child(3){grid-column:1/-1}}
+@media(max-width:580px){.commission-grid{grid-template-columns:1fr}.price-card:nth-child(3){grid-column:auto}.price-card{padding:21px}.price-card.extras{display:block}.extras .extra-price{margin-top:12px}nav{flex-wrap:wrap;gap:12px}}
+</style></head>
+<body>
+<div class="banner" role="note"><span>Review preview · details to be confirmed by Kabutan</span></div>
+
+<header class="wrap">
+  <a class="logo" href="#top"><i aria-hidden="true"><svg width="22" height="20" viewBox="0 0 22 20"><path d="M11 18C4 12 1 8 4 4c3-3 6-1 7 2 1-3 4-5 7-2 3 4 0 8-7 14Z" fill="none" stroke="#fbf4e2" stroke-width="2.6" stroke-linejoin="round"></path></svg></i><span>Kabutan<small>Little Dragon Art Studio</small></span></a>
+  <nav aria-label="Sections"><a href="#gallery">Gallery</a><a href="#commissions">Commissions</a><a href="#find">Find Kabutan</a></nav>
+</header>
+
+<main id="top">
+<section class="wrap hero" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <span class="tag">Little Dragon Art Studio</span>
+    <h1 id="hero-title" class="h">Kabutan</h1>
+    <p class="lede">Illustration, VTuber models and character design, drawn with big expressions and bright colour.</p>
+    <div class="row" id="heroChips"></div>
+    <div class="row" style="margin-top:18px"><a class="btn solid" href="#gallery">See the art</a></div>
+  </div>
+  <div class="stage">
+    <div class="stripes" aria-hidden="true"></div>
+    <button class="frame" type="button" data-open="design-01" aria-label="View full size: Kabutan character reference sheet">
+      <img src="assets/previews/design-01.png" data-full="assets/originals/design-01.jpg" data-fw="1920" data-fh="1080" width="800" height="450" fetchpriority="high" alt="KABUTAN character reference sheet: pixel-lettered title, pink bat-wing emblem, blob-creature doodle, a chibi, a close-up and a full-body view of the green-haired, yellow-eyed dragon girl, plus her colour palette.">
+      <span class="tape" aria-hidden="true" style="top:-14px;left:16%;width:96px;background:rgba(242,141,178,.85);transform:rotate(-8deg)"></span>
+      <span class="tape" aria-hidden="true" style="top:-10px;right:10%;width:80px;background:rgba(244,214,58,.85);transform:rotate(9deg)"></span>
+    </button>
+    <button class="sticker" type="button" data-open="vtuber-06" aria-label="View full size: Kabutan dragon chibi">
+      <img src="assets/previews/vtuber-06.png" data-full="assets/originals/vtuber-06.png" data-fw="2048" data-fh="2048" width="800" height="800" decoding="async" alt="Kabutan dragon chibi">
+    </button>
+    <span class="zoom" aria-hidden="true">tap to zoom ✦</span>
+  </div>
+</section>
+
+<section id="gallery" class="wrap" aria-labelledby="gallery-title" style="padding-bottom:clamp(80px,9vw,128px)">
+  <div class="sechead">
+    <div>
+      <h2 id="gallery-title" class="h">Art gallery</h2>
+      <p class="note">Titles are temporary descriptive labels. 23 works.</p>
+    </div>
+    <div class="row" role="group" aria-label="Filter artwork" id="filters"></div>
+  </div>
+  <p class="sr" aria-live="polite" id="live"></p>
+  <div class="grid" id="grid">
+<figure class="card" data-cat="Illustration" style="transform:rotate(-1.2deg)"><button class="art" type="button" data-open="art-01" aria-label="View full size: Peace sign with leafy vine" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-01.png" data-full="assets/originals/art-01.jpg" data-fw="1562" data-fh="2048" width="610" height="800" loading="lazy" decoding="async" alt="Full-body illustration of a pink-haired character with green hair accents throwing a peace sign, wrapped in a leafy green vine, on a blue grid with a yellow border and a &quot;LEECHEE&quot; name tag. Signed lower right."></button><figcaption><span class="t">Peace sign with leafy vine</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(.9deg)"><button class="art" type="button" data-open="art-02" aria-label="View full size: Pink close-up with stars" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-02.png" data-full="assets/originals/art-02.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Tight close-up of a pink-haired character with a toothy grin, a headset microphone and mismatched eyes, framed by green leaves and yellow halftone stars on blue polka dots."></button><figcaption><span class="t">Pink close-up with stars</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(-.6deg)"><button class="art" type="button" data-open="art-03" aria-label="View full size: Rainbow headband birthday close-up" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-03.png" data-full="assets/originals/art-03.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Close-up of a grinning character with blank white eyes, blush, small dark ears and a rainbow headband, holding two grey bells, on a red grid. Handwritten &quot;Happy Birthday&quot; top left and a brown heart top right."></button><figcaption><span class="t">Rainbow headband birthday close-up</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(1.1deg)"><button class="art" type="button" data-open="art-04" aria-label="View full size: Comic-burst mic pose" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-04.png" data-full="assets/originals/art-04.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Chibi character in a long dark purple coat and sunglasses holding a microphone and pointing, with a &quot;BAZINGA!&quot; speech bubble and yellow, pink and blue comic bursts on purple polka dots. Signed lower right beside a small bat doodle."></button><figcaption><span class="t">Comic-burst mic pose</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(-.9deg)"><button class="art" type="button" data-open="art-05" aria-label="View full size: Paw-pads pose on pink grid" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-05.png" data-full="assets/originals/art-05.png" data-fw="1640" data-fh="1640" width="800" height="800" loading="lazy" decoding="async" alt="Soft-painted lavender, cream and white furry character with big red eyes, posed with paws and a foot raised to show yellow paw pads, on a raspberry grid with purple paw prints. Signed lower right."></button><figcaption><span class="t">Paw-pads pose on pink grid</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(.7deg)"><button class="art" type="button" data-open="art-06" aria-label="View full size: Bat-wing headshot with name lettering" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-06.png" data-full="assets/originals/art-06.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Headshot of a navy-haired character with black cat ears, red and yellow eyes, a fang and red bat wings, above red bubble lettering reading &quot;AZAZEL&quot;, on light grey."></button><figcaption><span class="t">Bat-wing headshot with name lettering</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(-.4deg)"><button class="art" type="button" data-open="art-07" aria-label="View full size: Beanie chibi with kitten" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-07.png" data-full="assets/originals/art-07.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Chibi with indigo hair, a dark beanie and a striped scarf, eyes squeezed shut and blushing, hugging a small white kitten, framed by green leaves on yellow gingham. Signed lower left."></button><figcaption><span class="t">Beanie chibi with kitten</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(1deg)"><button class="art" type="button" data-open="art-08" aria-label="View full size: Round-glasses headshot" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-08.png" data-full="assets/originals/art-08.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Painted headshot of a white-haired character with round glasses, brown eyes and blush, smiling with a small fang, wearing a brown scarf, on a purple background with diagonal lines. Signed lower left."></button><figcaption><span class="t">Round-glasses headshot</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="Illustration" style="transform:rotate(-.8deg)"><button class="art" type="button" data-open="art-09" aria-label="View full size: Toothy grin on eye pattern" style="box-shadow:6px 6px 0 #f28db2"><img src="assets/previews/art-09.png" data-full="assets/originals/art-09.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Close-up of a grey-skinned character with shaggy dark brown hair, droopy olive eyes and a wide toothy grin, on a deep red background patterned with eyes. A white tag lower left reads &quot;AX&quot; beside an open-mouth doodle."></button><figcaption><span class="t">Toothy grin on eye pattern</span><span class="cat" style="background:#f28db2">Illustration</span></figcaption></figure>
+<figure class="card" data-cat="VTuber Models" style="transform:rotate(-1.2deg)"><button class="art" type="button" data-open="vtuber-01" aria-label="View full size: Winged full-body model lineart" style="box-shadow:6px 6px 0 #f4d63a"><img src="assets/previews/vtuber-01.png" data-full="assets/originals/vtuber-01.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Black-and-white lineart of a full-body character with bat wings, small horns, long layered pigtails, shorts, a tail and mismatched leg wear, standing front-facing on white."></button><figcaption><span class="t">Winged full-body model lineart</span><span class="cat" style="background:#f4d63a">VTuber Models</span></figcaption></figure>
+<figure class="card" data-cat="VTuber Models" style="transform:rotate(.9deg)"><button class="art" type="button" data-open="vtuber-02" aria-label="View full size: Model base sketch" style="box-shadow:6px 6px 0 #f4d63a"><img src="assets/previews/vtuber-02.png" data-full="assets/originals/vtuber-02.png" data-fw="666" data-fh="797" width="666" height="797" loading="lazy" decoding="async" alt="Screenshot of a rough brown sketch of a front-facing long-haired character base with hair buns and a heart ahoge, drawn over a vertical centre guide line."></button><figcaption><span class="t">Model base sketch</span><span class="cat" style="background:#f4d63a">VTuber Models</span></figcaption></figure>
+<figure class="card" data-cat="VTuber Models" style="transform:rotate(-.6deg)"><button class="art" type="button" data-open="vtuber-03" aria-label="View full size: Pink heart cat blob" style="box-shadow:6px 6px 0 #f4d63a"><img src="assets/previews/vtuber-03.png" data-full="assets/originals/vtuber-03.png" data-fw="4095" data-fh="4095" width="800" height="800" loading="lazy" decoding="async" alt="Round white cat-like blob with pink hair, blush, a happy open mouth, a large pink heart on its tummy and a little striped tail, on white."></button><figcaption><span class="t">Pink heart cat blob</span><span class="cat" style="background:#f4d63a">VTuber Models</span></figcaption></figure>
+<figure class="card" data-cat="VTuber Models" style="transform:rotate(1.1deg)"><button class="art" type="button" data-open="vtuber-04" aria-label="View full size: Pink chibi, sparkly-eye expression" style="box-shadow:6px 6px 0 #f4d63a"><img src="assets/previews/vtuber-04.png" data-full="assets/originals/vtuber-04.png" data-fw="4095" data-fh="4095" width="800" height="800" loading="lazy" decoding="async" alt="Pink-haired chibi with twin horns, a heart ahoge and a heart-print sweater, shown with big shiny pink eyes and a small cat smile, on pale yellow."></button><figcaption><span class="t">Pink chibi, sparkly-eye expression</span><span class="cat" style="background:#f4d63a">VTuber Models</span></figcaption></figure>
+<figure class="card" data-cat="VTuber Models" style="transform:rotate(-.9deg)"><button class="art" type="button" data-open="vtuber-05" aria-label="View full size: Pink chibi, happy expression" style="box-shadow:6px 6px 0 #f4d63a"><img src="assets/previews/vtuber-05.png" data-full="assets/originals/vtuber-05.jpg" data-fw="2160" data-fh="2160" width="800" height="800" loading="lazy" decoding="async" alt="The same pink-haired chibi with twin horns and heart-print sweater, shown with closed happy eyes, heart blush and an open laughing mouth, on pale yellow."></button><figcaption><span class="t">Pink chibi, happy expression</span><span class="cat" style="background:#f4d63a">VTuber Models</span></figcaption></figure>
+<figure class="card" data-cat="VTuber Models" style="transform:rotate(.7deg)"><button class="art" type="button" data-open="vtuber-06" aria-label="View full size: Kabutan dragon chibi" style="box-shadow:6px 6px 0 #f4d63a"><img src="assets/previews/vtuber-06.png" data-full="assets/originals/vtuber-06.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Chibi of Kabutan on white: green-haired dragon with cream horns, a heart-shaped sprout, pink inner ears, small dark wings, yellow-banded braids, a black outfit with a pink bat emblem, and a blue drool drip."></button><figcaption><span class="t">Kabutan dragon chibi</span><span class="cat" style="background:#f4d63a">VTuber Models</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(-.4deg)"><button class="art" type="button" data-open="design-01" aria-label="View full size: Kabutan character reference sheet" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-01.png" data-full="assets/originals/design-01.jpg" data-fw="1920" data-fh="1080" width="800" height="450" loading="lazy" decoding="async" alt="KABUTAN character reference sheet on a blue and yellow striped background: pixel-lettered title, a pink bat-wing emblem, a green blob-creature doodle, a chibi, a close-up of the green-haired, yellow-eyed dragon girl with cream horns and fangs, a full-body view in an oversized black outfit with pink and navy rings and a green tail, and a colour palette."></button><figcaption><span class="t">Kabutan character reference sheet</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(1deg)"><button class="art" type="button" data-open="design-02" aria-label="View full size: Lemon cat character sheet" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-02.png" data-full="assets/originals/design-02.png" data-fw="1640" data-fh="2360" width="556" height="800" loading="lazy" decoding="async" alt="Character sheet of a yellow-haired cat-eared character with lemon-slice hair clips and a leaf sprout: a full-body view in a lemon-print top and purple shorts, a lineart head sketch, a chibi, a heart colour palette and handwritten name lettering."></button><figcaption><span class="t">Lemon cat character sheet</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(-.8deg)"><button class="art" type="button" data-open="design-03" aria-label="View full size: Blue jacket full-body design" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-03.png" data-full="assets/originals/design-03.png" data-fw="4095" data-fh="4095" width="800" height="800" loading="lazy" decoding="async" alt="Full-body design of a white- and blue-haired character in a white cat-ear hood, small white bat wings, a light blue zip jacket with oversized white sleeves, leg warmers and a blue tail, on grey."></button><figcaption><span class="t">Blue jacket full-body design</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(-1.2deg)"><button class="art" type="button" data-open="design-04" aria-label="View full size: Cat hat and mismatched wings sketch" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-04.png" data-full="assets/originals/design-04.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Rough lineart of a character in a cat-face hat with fangs, one fluffy wing and one bat wing, an oversized sailor-collar top with laced sleeves, and a long looping tail."></button><figcaption><span class="t">Cat hat and mismatched wings sketch</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(.9deg)"><button class="art" type="button" data-open="design-05" aria-label="View full size: Blue cat concept with head sketch" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-05.png" data-full="assets/originals/design-05.png" data-fw="2048" data-fh="2048" width="800" height="800" loading="lazy" decoding="async" alt="Concept art on grey: a lineart head sketch on the left and a coloured bright-blue and black cat character with a hair-covered eye, ear piercings and a curled black tail on the right."></button><figcaption><span class="t">Blue cat concept with head sketch</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(-.6deg)"><button class="art" type="button" data-open="design-06" aria-label="View full size: Jester outfit sketch" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-06.png" data-full="assets/originals/design-06.png" data-fw="1339" data-fh="1466" width="731" height="800" loading="lazy" decoding="async" alt="Lineart of a jumping character in a jester hat with pom-poms, a braided tail, a star- and cheese-patterned outfit with ruffled cuffs, and chunky shoes."></button><figcaption><span class="t">Jester outfit sketch</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(1.1deg)"><button class="art" type="button" data-open="design-07" aria-label="View full size: Blue beast turnaround" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-07.png" data-full="assets/originals/design-07.png" data-fw="2360" data-fh="1640" width="800" height="556" loading="lazy" decoding="async" alt="Character design turnaround of a blue lion-like creature with flame-coloured horns: a back view with a braid, a tail study in blue, black, red and yellow, and a front view with a yellow chest marking and a third-eye mark on the forehead."></button><figcaption><span class="t">Blue beast turnaround</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+<figure class="card" data-cat="Character Design" style="transform:rotate(-.9deg)"><button class="art" type="button" data-open="design-08" aria-label="View full size: Red-eared creature turnaround" style="box-shadow:6px 6px 0 #6aa04e"><img src="assets/previews/design-08.png" data-full="assets/originals/design-08.jpg" data-fw="2360" data-fh="1640" width="800" height="556" loading="lazy" decoding="async" alt="Turnaround sheet labelled &quot;KAIJU&quot;: front and back views of a rabbit-eared creature in black, red, white, yellow and blue, plus a spiked tail study, a head view and a four-colour palette."></button><figcaption><span class="t">Red-eared creature turnaround</span><span class="cat" style="background:#b7d99a">Character Design</span></figcaption></figure>
+</div>
+</section>
+
+
+<section id="commissions" class="wrap" aria-labelledby="commissions-title">
+  <div class="sechead"><div><h2 id="commissions-title" class="h">Commission menu</h2><p class="note">Prices supplied by Kabutan. Currency and service notes below remain to be confirmed.</p></div></div>
+  <div class="commission-grid">
+    <article class="price-card"><h3 class="h">ARTWORK</h3><dl>
+      <dt>character design <small>depending on complexity</small></dt><dd>50+ <small>Currency to confirm</small></dd>
+      <dt>refsheet <small>depending on complexity</small></dt><dd>USD 50+</dd>
+      <dt>Headshot</dt><dd>USD 15</dd><dt>Bust</dt><dd>USD 25</dd><dt>Full body</dt><dd>USD 50</dd><dt>Chibi</dt><dd>USD 50</dd>
+      <dt>Emotes (non-animated)</dt><dd>USD 10 each <small>or 6 for USD 50</small></dd>
+    </dl></article>
+    <article class="price-card"><h3 class="h">RIGGING+MODEL</h3><dl><dt>chibi</dt><dd>USD 100</dd><dt>halfbody</dt><dd>USD 150</dd><dt>fullbody</dt><dd>USD 200</dd></dl>
+      <p>Each model will come with 4 basic toggles: sad, mad, confused, and surprised.</p>
+    </article>
+    <article class="price-card"><h3 class="h">MODEL ART/RIGGING</h3><p class="service-note">Service meaning to be confirmed by Kabutan.</p><dl><dt>Chibi/half body</dt><dd>USD 75</dd><dt>Fullbody</dt><dd>120 <small>Currency to confirm</small></dd></dl></article>
+    <article class="price-card extras"><h3 class="h">EXTRA PARTS, TOGGLES, GIMMICKS</h3><p class="extra-price">+USD 10 each</p></article>
+  </div>
+</section>
+
+<section id="find" class="wrap" aria-labelledby="find-title" style="padding-top:clamp(72px,8vw,112px);padding-bottom:clamp(56px,6vw,80px)">
+  <h2 id="find-title" class="h big">Find Kabutan</h2>
+  <p class="note" style="margin:8px 0 32px;font-size:16px">Public channels.</p>
+  <ul class="links">
+    <li style="transform:rotate(-1.5deg)"><a href="https://www.tiktok.com/@gabugabukabutan" target="_blank" rel="noopener noreferrer" style="background:var(--pink)"><b>TikTok</b><span>@gabugabukabutan</span><small>Opens in a new tab ↗</small></a></li>
+    <li style="transform:rotate(1deg)"><a href="https://www.twitch.tv/gabugabukabutan" target="_blank" rel="noopener noreferrer" style="background:var(--yellow)"><b>Twitch</b><span>gabugabukabutan</span><small>Opens in a new tab ↗</small></a></li>
+    <li style="transform:rotate(-.5deg)"><a href="https://www.youtube.com/@GabuGabuKabutan" target="_blank" rel="noopener noreferrer" style="background:var(--mint)"><b>YouTube</b><span>@GabuGabuKabutan</span><small>Opens in a new tab ↗</small></a></li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="wrap"><span>Kabutan — Little Dragon Art Studio</span><span>Review preview · details to be confirmed by Kabutan</span></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+  <div class="top"><span id="lbCount" style="font-weight:800;font-size:14px"></span><button class="close" type="button" id="lbClose">Close ✕</button></div>
+  <div class="img" id="lbImgWrap"><img id="lbImg" alt=""></div>
+  <div class="bot">
+    <button class="nav" type="button" id="lbPrev" aria-label="Previous artwork">←</button>
+    <div style="text-align:center;min-width:0"><p id="lbTitle" class="h" style="color:var(--cream);font-size:clamp(18px,2vw,24px);line-height:1.2"></p><p id="lbCat" style="margin:2px 0 0;font-size:13px;font-weight:700;color:#e6dcc0"></p><p style="margin:2px 0 0;font-size:12px;font-weight:700;color:#e6dcc0">Original artwork · full resolution</p></div>
+    <button class="nav" type="button" id="lbNext" aria-label="Next artwork">→</button>
+  </div>
+</div>
+
+<script>
+/* 23 static works in #grid */
+const CATS=['All','Illustration','VTuber Models','Character Design'];
+const TAG={'Illustration':'#f28db2','VTuber Models':'#f4d63a','Character Design':'#b7d99a'};
+const $=id=>document.getElementById(id);
+const cards=[...document.querySelectorAll('#grid .card')];
+let filter='All', lbList=[], lbIdx=0, lastFocus=null;
+
+function renderFilters(){
+  $('filters').innerHTML=CATS.map(c=>`<button class="pill" type="button" data-filter="${c}" aria-pressed="${c===filter}">${c}<span class="n">${cards.filter(k=>c==='All'||k.dataset.cat===c).length}</span></button>`).join('');
+  $('heroChips').innerHTML=CATS.slice(1).map(c=>`<button class="pill" type="button" data-filter="${c}" data-jump="1" style="background:${TAG[c]}">${c}</button>`).join('');
+}
+function setFilter(c,jump){
+  filter=c;
+  cards.forEach(k=>{k.hidden=!(c==='All'||k.dataset.cat===c)});
+  $('filters').querySelectorAll('[data-filter]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.filter===c));
+  $('live').textContent=`Showing ${cards.filter(k=>!k.hidden).length} works`;
+  if(jump){const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;window.scrollTo({top:$('gallery').getBoundingClientRect().top+scrollY-8,behavior:reduce?'auto':'smooth'})}
+}
+function openLb(id,fromGrid){
+  lbList=(fromGrid?cards.filter(k=>!k.hidden):cards);
+  lbIdx=Math.max(0,lbList.findIndex(k=>k.querySelector('[data-open]').dataset.open===id));
+  lastFocus=document.activeElement;
+  document.body.style.overflow='hidden';
+  $('lb').classList.add('open');paintLb();$('lbClose').focus();
+}
+function paintLb(){
+  const k=lbList[lbIdx], src=k.querySelector('img'), img=$('lbImg');
+  img.src=src.dataset.full||src.currentSrc||src.src;img.alt=src.alt;
+  img.setAttribute('width',src.dataset.fw||src.getAttribute('width'));img.setAttribute('height',src.dataset.fh||src.getAttribute('height'));
+  $('lbTitle').textContent=k.querySelector('.t').textContent;$('lbCat').textContent=`${k.dataset.cat} · temporary label`;
+  $('lbCount').textContent=`${lbIdx+1} / ${lbList.length}`;
+}
+function closeLb(){$('lb').classList.remove('open');document.body.style.overflow='';$('lbImg').removeAttribute('src');if(lastFocus)lastFocus.focus()}
+function step(d){lbIdx=(lbIdx+d+lbList.length)%lbList.length;paintLb()}
+
+document.addEventListener('click',e=>{
+  const f=e.target.closest('[data-filter]');if(f){setFilter(f.dataset.filter,!!f.dataset.jump);return}
+  const o=e.target.closest('[data-open]');if(o){openLb(o.dataset.open,!!o.closest('#grid'));return}
+});
+$('lbClose').onclick=closeLb;$('lbPrev').onclick=()=>step(-1);$('lbNext').onclick=()=>step(1);
+$('lbImgWrap').onclick=e=>{if(e.target===e.currentTarget)closeLb()};
+document.addEventListener('keydown',e=>{
+  if(!$('lb').classList.contains('open'))return;
+  if(e.key==='Escape'){e.preventDefault();closeLb()}
+  else if(e.key==='ArrowRight')step(1);
+  else if(e.key==='ArrowLeft')step(-1);
+  else if(e.key==='Tab'){const b=[...$('lb').querySelectorAll('button')],first=b[0],last=b[b.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+    else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+});
+renderFilters();
+</script>
+
+
+</body></html>

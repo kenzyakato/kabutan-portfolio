@@ -1,0 +1,171 @@
+{
+  "artworks": 23,
+  "categories": {
+    "Illustration": 9,
+    "VTuber Models": 6,
+    "Character Design": 8
+  },
+  "files": [
+    {
+      "id": "art-01",
+      "preview": "assets/previews/art-01.png",
+      "original": "assets/originals/art-01.jpg",
+      "original_sha256": "4E218D05AF19818EC491C49BB8692718FE8093490999BAD5C0D313A09878FF7D",
+      "preview_sha256": "1a9c1a634cc112e2b4c79c485c49bce2e22f3d580864e00ae3c562a9325d6bb9"
+    },
+    {
+      "id": "art-02",
+      "preview": "assets/previews/art-02.png",
+      "original": "assets/originals/art-02.png",
+      "original_sha256": "DF2AF428860E62B1D7918FC367874416AF6B4A1474F49012B01E247A426E8821",
+      "preview_sha256": "a3829eebbcba21b4d09bdd5716f30d706dba8500cce483487623be2b4f2a500b"
+    },
+    {
+      "id": "art-03",
+      "preview": "assets/previews/art-03.png",
+      "original": "assets/originals/art-03.png",
+      "original_sha256": "48CC3503AAD8E70A0FED1C747503DDAC8FBD1A82B46484F3A4EEC101FCCDC197",
+      "preview_sha256": "0ae2ffe5eed85d16bb3130150a9aab1baa1806a71abc5d528be33bc2c865e5b8"
+    },
+    {
+      "id": "art-04",
+      "preview": "assets/previews/art-04.png",
+      "original": "assets/originals/art-04.png",
+      "original_sha256": "C7E8B015BB9C4FBBA979533DB0F80C8B35933CAD4A737E4164AC50935F8E3C05",
+      "preview_sha256": "c1aba205c212ac77b5d4663b83238d59bfd65a6e55def9155bb01a87b437be5c"
+    },
+    {
+      "id": "art-05",
+      "preview": "assets/previews/art-05.png",
+      "original": "assets/originals/art-05.png",
+      "original_sha256": "6F2FFD29D40DD885761705DD202F6BD5805141D947206B8B9CC3ED528656E505",
+      "preview_sha256": "2703365061a01dd74a754312b43d7835477f45233b4469ec6f660a6a2e4a83ef"
+    },
+    {
+      "id": "art-06",
+      "preview": "assets/previews/art-06.png",
+      "original": "assets/originals/art-06.png",
+      "original_sha256": "8833AE84ED84829B3E03CB8346001532AC83E506793E1F994FD584296439800D",
+      "preview_sha256": "b4e940fa8a2b83140dbe5f58628fe1ea5121f3189c3839e523a9c6f2ed56eb2a"
+    },
+    {
+      "id": "art-07",
+      "preview": "assets/previews/art-07.png",
+      "original": "assets/originals/art-07.png",
+      "original_sha256": "E9DA05C9E834FE571BB364EAFCA1C4C8160420033548450A1A378962FE476922",
+      "preview_sha256": "3c6a982d0269c628fa5b848bbe305e5bd856e7432db5ad30471e2d1c7ad87de1"
+    },
+    {
+      "id": "art-08",
+      "preview": "assets/previews/art-08.png",
+      "original": "assets/originals/art-08.png",
+      "original_sha256": "428AC01E770A09D53A732D8F498C0E7DCE57EFCAC2C2C542DDAD2C0AC97F062A",
+      "preview_sha256": "dda9963c3b52670cdb46505b26f02ddd339db56a37812b8ff10519ecdfc209e7"
+    },
+    {
+      "id": "art-09",
+      "preview": "assets/previews/art-09.png",
+      "original": "assets/originals/art-09.png",
+      "original_sha256": "B0EC776581C7C4A2FC3F400AEC374B8828CC11AD994C1B78056E4F8B41E4DE88",
+      "preview_sha256": "5b4a35a04691498d08aa91f6ba9b76cd1db265b3bf698cc081b61a65b56a99f3"
+    },
+    {
+      "id": "design-01",
+      "preview": "assets/previews/design-01.png",
+      "original": "assets/originals/design-01.jpg",
+      "original_sha256": "A3585529B20EE0F3484F25F7FC46ED010C9C33BA20C23D1CD8924813B55DCD8E",
+      "preview_sha256": "e1f4dba8bf89645918551b9fb067ad7258e7efa9477f3ab1eb5d104e8570a344"
+    },
+    {
+      "id": "design-02",
+      "preview": "assets/previews/design-02.png",
+      "original": "assets/originals/design-02.png",
+      "original_sha256": "31781E8AFC3D5AEE56B7F1683F0D53B0EA7570037F8A22051DF822FABCFFDAA1",
+      "preview_sha256": "b4c118b2c69959d1c30892927ebc27c4251ca033ef34d1ef4e6786f7cd526f97"
+    },
+    {
+      "id": "design-03",
+      "preview": "assets/previews/design-03.png",
+      "original": "assets/originals/design-03.png",
+      "original_sha256": "79C393D987527E0D2503D98B20EE03C9AC65085AF7638EBF2E1D7D9F132CD6CA",
+      "preview_sha256": "d3b1656afce454ae77236d78ec3677bb124b1d3cb6e6fab749b2526ee116a236"
+    },
+    {
+      "id": "design-04",
+      "preview": "assets/previews/design-04.png",
+      "original": "assets/originals/design-04.png",
+      "original_sha256": "0F0236B61EE7DFF41E3FFD68FA452A6F8F15FEA27FA050AAE9A31C3BBD775B95",
+      "preview_sha256": "e5459581a89fda0e892c4bcc6444daac918e76a587424f2afc83d90d7f29c2f0"
+    },
+    {
+      "id": "design-05",
+      "preview": "assets/previews/design-05.png",
+      "original": "assets/originals/design-05.png",
+      "original_sha256": "B0F9F366380DBD5A7AD20170E11C070F94D886E64B2412303EF21C3BF506E511",
+      "preview_sha256": "ac53f67345e45574fd99671aeac3c9bd598324b42accb2b0419521bfac8dc353"
+    },
+    {
+      "id": "design-06",
+      "preview": "assets/previews/design-06.png",
+      "original": "assets/originals/design-06.png",
+      "original_sha256": "6D707818F531F2B3B96E2212AB17504381ED869C3023B83F15B75ABAD2004213",
+      "preview_sha256": "c0cd351cdf4c684afaad06bdb9d024d47ef3a9a1f55a600dd19358bb68768d82"
+    },
+    {
+      "id": "design-07",
+      "preview": "assets/previews/design-07.png",
+      "original": "assets/originals/design-07.png",
+      "original_sha256": "D046413F9DDB38F1D3E664F2A5B2B7AF84DDC389A33D6D5B38CDCAEEDCA27214",
+      "preview_sha256": "08502e5f1e0fbfcf006b7fad8686f3aceac8239b6b5b975a09772c685c808111"
+    },
+    {
+      "id": "design-08",
+      "preview": "assets/previews/design-08.png",
+      "original": "assets/originals/design-08.jpg",
+      "original_sha256": "24759185F0612F8F3FEE9DCE2C362BFD163501DC7E1C08E05B6A3B4BFFE36876",
+      "preview_sha256": "4457095ed566fa76787338c5510994fa75a532db98eda510550dbbf30404911e"
+    },
+    {
+      "id": "vtuber-01",
+      "preview": "assets/previews/vtuber-01.png",
+      "original": "assets/originals/vtuber-01.png",
+      "original_sha256": "2186175F699CAB43D85BCC6437E2FDA3FD7010D24D415005FE9403C24E03AD08",
+      "preview_sha256": "8aba40e56854420dc98d6422e8d3e574e3ea5c4e8aad8f1b7444c4bb82c4a1aa"
+    },
+    {
+      "id": "vtuber-02",
+      "preview": "assets/previews/vtuber-02.png",
+      "original": "assets/originals/vtuber-02.png",
+      "original_sha256": "2320E38F052F238F25D0FFF78D9F060E980A2F15DC6E8C2B6C8EA4A9520A9A16",
+      "preview_sha256": "62a73fe68bdb8b2e200abb6181dd26535f1d3ecbbc45cf7eded05f401670430d"
+    },
+    {
+      "id": "vtuber-03",
+      "preview": "assets/previews/vtuber-03.png",
+      "original": "assets/originals/vtuber-03.png",
+      "original_sha256": "F25F94050EF2731A78AC9DC5A766ABAFB244630CF59CF5F7CD51B11FA1734B0F",
+      "preview_sha256": "4575477ddcc210a7e8785556e0500542af54ca09ac1475d4e78efb0a3e7987a8"
+    },
+    {
+      "id": "vtuber-04",
+      "preview": "assets/previews/vtuber-04.png",
+      "original": "assets/originals/vtuber-04.png",
+      "original_sha256": "D858B975D1DB49493E6F9F41450F5DDF33F3C82D88D2191FE8B08853B31E6E9B",
+      "preview_sha256": "14bfa190a09af8047322cb050053958d6994e3732ae2a5fc505b5e7403980339"
+    },
+    {
+      "id": "vtuber-05",
+      "preview": "assets/previews/vtuber-05.png",
+      "original": "assets/originals/vtuber-05.jpg",
+      "original_sha256": "B54BE13318F368B47D0447CABDCD3D7734A885B93B0014487FB7F5379E6C258A",
+      "preview_sha256": "c99ef8022a7b0b9240d9c317880b6942c971a8527fd394a89bcbb7dce79c33d2"
+    },
+    {
+      "id": "vtuber-06",
+      "preview": "assets/previews/vtuber-06.png",
+      "original": "assets/originals/vtuber-06.png",
+      "original_sha256": "AF0FE7063F7124C7A5DAB98BEDF1545F66D9115C2023B5AAD33188375FF94F34",
+      "preview_sha256": "4e197e292e52237231f7036554fab316dd84710ecc7aa3185384de80ae36f839"
+    }
+  ]
+}
