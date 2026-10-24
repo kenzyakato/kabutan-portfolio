@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
-<title>Kabutan — Little Dragon Art Studio (review preview)</title>
+<title>Kabutan — Little Dragon Art Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&amp;family=Nunito:wght@400;600;700;800;900&amp;display=swap">
@@ -114,8 +114,6 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-s
 @media(max-width:580px){.commission-grid{grid-template-columns:1fr}.price-card:nth-child(3){grid-column:auto}.price-card{padding:21px}.price-card.extras{display:block}.extras .extra-price{margin-top:12px}nav{flex-wrap:wrap;gap:12px}}
 </style></head>
 <body>
-<div class="banner" role="note"><span>Review preview · details to be confirmed by Kabutan</span></div>
-
 <header class="wrap">
   <a class="logo" href="#top"><i aria-hidden="true"><svg width="22" height="20" viewBox="0 0 22 20"><path d="M11 18C4 12 1 8 4 4c3-3 6-1 7 2 1-3 4-5 7-2 3 4 0 8-7 14Z" fill="none" stroke="#fbf4e2" stroke-width="2.6" stroke-linejoin="round"></path></svg></i><span>Kabutan<small>Little Dragon Art Studio</small></span></a>
   <nav aria-label="Sections"><a href="#gallery">Gallery</a><a href="#commissions">Commissions</a><a href="#find">Find Kabutan</a></nav>
@@ -148,7 +146,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-s
   <div class="sechead">
     <div>
       <h2 id="gallery-title" class="h">Art gallery</h2>
-      <p class="note">Titles are temporary descriptive labels. 23 works.</p>
+      <p class="note">23 works.</p>
     </div>
     <div class="row" role="group" aria-label="Filter artwork" id="filters"></div>
   </div>
@@ -182,10 +180,10 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-s
 
 
 <section id="commissions" class="wrap" aria-labelledby="commissions-title">
-  <div class="sechead"><div><h2 id="commissions-title" class="h">Commission menu</h2><p class="note">Prices supplied by Kabutan. Currency and service notes below remain to be confirmed.</p></div></div>
+  <div class="sechead"><div><h2 id="commissions-title" class="h">Commission menu</h2><p class="note"></p></div></div>
   <div class="commission-grid">
     <article class="price-card"><h3 class="h">ARTWORK</h3><dl>
-      <dt>character design <small>depending on complexity</small></dt><dd>50+ <small>Currency to confirm</small></dd>
+      <dt>character design <small>depending on complexity</small></dt><dd>50+ </dd>
       <dt>refsheet <small>depending on complexity</small></dt><dd>USD 50+</dd>
       <dt>Headshot</dt><dd>USD 15</dd><dt>Bust</dt><dd>USD 25</dd><dt>Full body</dt><dd>USD 50</dd><dt>Chibi</dt><dd>USD 50</dd>
       <dt>Emotes (non-animated)</dt><dd>USD 10 each <small>or 6 for USD 50</small></dd>
@@ -193,7 +191,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-s
     <article class="price-card"><h3 class="h">RIGGING+MODEL</h3><dl><dt>chibi</dt><dd>USD 100</dd><dt>halfbody</dt><dd>USD 150</dd><dt>fullbody</dt><dd>USD 200</dd></dl>
       <p>Each model will come with 4 basic toggles: sad, mad, confused, and surprised.</p>
     </article>
-    <article class="price-card"><h3 class="h">MODEL ART/RIGGING</h3><p class="service-note">Service meaning to be confirmed by Kabutan.</p><dl><dt>Chibi/half body</dt><dd>USD 75</dd><dt>Fullbody</dt><dd>120 <small>Currency to confirm</small></dd></dl></article>
+    <article class="price-card"><h3 class="h">MODEL ART/RIGGING</h3><dl><dt>Chibi/half body</dt><dd>USD 75</dd><dt>Fullbody</dt><dd>120 </dd></dl></article>
     <article class="price-card extras"><h3 class="h">EXTRA PARTS, TOGGLES, GIMMICKS</h3><p class="extra-price">+USD 10 each</p></article>
   </div>
 </section>
@@ -210,7 +208,7 @@ footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-s
 
 </main>
 
-<footer class="wrap"><span>Kabutan — Little Dragon Art Studio</span><span>Review preview · details to be confirmed by Kabutan</span></footer>
+<footer class="wrap"><span>Kabutan — Little Dragon Art Studio</span><span></span></footer>
 
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
   <div class="top"><span id="lbCount" style="font-weight:800;font-size:14px"></span><button class="close" type="button" id="lbClose">Close ✕</button></div>
@@ -252,7 +250,7 @@ function paintLb(){
   const k=lbList[lbIdx], src=k.querySelector('img'), img=$('lbImg');
   img.src=src.dataset.full||src.currentSrc||src.src;img.alt=src.alt;
   img.setAttribute('width',src.dataset.fw||src.getAttribute('width'));img.setAttribute('height',src.dataset.fh||src.getAttribute('height'));
-  $('lbTitle').textContent=k.querySelector('.t').textContent;$('lbCat').textContent=`${k.dataset.cat} · temporary label`;
+  $('lbTitle').textContent=k.querySelector('.t').textContent;$('lbCat').textContent=`${k.dataset.cat}`;
   $('lbCount').textContent=`${lbIdx+1} / ${lbList.length}`;
 }
 function closeLb(){$('lb').classList.remove('open');document.body.style.overflow='';$('lbImg').removeAttribute('src');if(lastFocus)lastFocus.focus()}

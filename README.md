@@ -1,5 +1,5 @@
-# Kabutan portfolio review
+# Kabutan portfolio
 
-Artwork and commission menu by Kabutan. Review draft; service meaning and two currencies remain to be confirmed. Artwork rights remain with their respective owners; no blanket reuse license is granted.
+Artwork and commission menu by Kabutan. Artwork rights remain with their respective owners; no blanket reuse license is granted.
 
 Static site for GitHub Pages. Gallery previews are optimized copies; the viewer uses the preserved original files. No build step is required.
