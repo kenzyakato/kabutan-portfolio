@@ -1,0 +1,47 @@
+# 僅允許已核實的 Kabutan repo、main 與 Pages 專案；所有憑據由 Actions 分步注入。
+name: Publish Kabutan to Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: kabutan-pages-main
+  cancel-in-progress: true
+jobs:
+  publish:
+    if: github.repository == 'kenzyakato/kabutan-portfolio' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Validate nonsecret deployment target
+        run: node scripts/check-ci-target.mjs
+        env:
+          TINA_PUBLIC_CLIENT_ID: ${{ vars.TINA_PUBLIC_CLIENT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_PAGES_PROJECT_NAME: ${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }}
+      - run: npm ci
+      - run: npx tsc --noEmit
+      - run: npm test
+      - name: Build static site and production Tina admin
+        run: npm run build
+        env:
+          TINA_PUBLIC_CLIENT_ID: ${{ vars.TINA_PUBLIC_CLIENT_ID }}
+          TINA_BRANCH: main
+          TINA_PUBLIC_BASE_PATH: ''
+          TINA_TOKEN: ${{ secrets.TINA_TOKEN }}
+      - name: Upload dist to the verified Pages project
+        uses: cloudflare/wrangler-action@953926a2e2182532811c01a25e53647d93bf07c0 # v4
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ vars.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4.152.0'
+          command: pages deploy dist --project-name=${{ vars.CLOUDFLARE_PAGES_PROJECT_NAME }} --branch=main

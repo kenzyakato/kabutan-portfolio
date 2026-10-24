@@ -1,0 +1,9 @@
+node_modules/
+.npm-cache/
+.env
+.env.*
+!.env.example
+dist/
+tina/__generated__/
+admin/
+*.log
