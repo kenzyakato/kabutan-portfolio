@@ -3,7 +3,21 @@ import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {build} from 'esbuild';
 import {buildASTSchema,parse,validate} from 'graphql';
-import {artworkInput,mediaPath,movePlan,newArtwork,PROJECT_ID,sameArtwork,settingsInput,uploadFilename} from '../tina/artist-model.mjs';
+import {artworkInput,mediaPath,movePlan,newArtwork,PROJECT_ID,sameArtwork,settingsInput,START_ROUTE,studioEntryRoute,uploadFilename} from '../tina/artist-model.mjs';
+import {runInNewContext} from 'node:vm';
+
+test('studio entry matches the actual installed Tina screen router and repairs old links',async()=>{
+  const source=await readFile('node_modules/tinacms/dist/index.js','utf8');
+  const start=source.indexOf('const slugify = (text) => {');
+  assert.ok(start>=0,'Pinned Tina router implementation is available for verification');
+  const end=source.indexOf('\n};',start)+3;
+  const slug=runInNewContext(source.slice(start,end)+';slugify("Start here");');
+  assert.equal(START_ROUTE,'#/screens/'+slug);
+  assert.equal(studioEntryRoute('#/screens/start-here'),START_ROUTE);
+  assert.equal(studioEntryRoute(''),START_ROUTE);
+  assert.equal(studioEntryRoute('#/collections/artwork/~'),null);
+  assert.equal(studioEntryRoute(START_ROUTE),null,'Do not reload a correctly registered screen');
+});
 
 const artwork={title:'Artwork',visible:true,order:10,category:'Illustration',image:'/assets/originals/art-01.jpg',preview:'/assets/previews/art-01.png',alt:'Image description',_sys:{relativePath:'art-01.json'}};
 test('simple editor creates hidden artwork with automatic IDs, order and accessible fallback',()=>{

@@ -1,5 +1,8 @@
 export const PROJECT_ID = '413ed129-73d5-4372-b05b-bd9e3c0c3989';
-export const START_ROUTE = '#/screens/start-here';
+export const START_ROUTE = '#/screens/start_here';
+export function studioEntryRoute(hash) {
+  return ['','#','#/','#/screens/start-here'].includes(hash) ? START_ROUTE : null;
+}
 export const savedMessage = 'Saved. Your website update may take a few minutes. Open the website to check it.';
 export const artworkFields = ['title','visible','order','category','image','preview','alt'];
 const pick = (value, fields) => Object.fromEntries(fields.map(key=>[key,value[key] ?? (key==='visible'?false:key==='order'?0:'')]));

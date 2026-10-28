@@ -4,6 +4,7 @@ export type PriceCard={title:string;visible:boolean;rows?:Row[];note?:string;ext
 export type Settings={categories:{name:string;color:string;shadowColor?:string}[];menu:PriceCard[]};
 export const PROJECT_ID:string;
 export const START_ROUTE:string;
+export function studioEntryRoute(hash:string):string|null;
 export const savedMessage:string;
 export const artworkFields:string[];
 export function mediaPath(value:string):string;
