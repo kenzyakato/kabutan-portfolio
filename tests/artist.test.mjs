@@ -2,6 +2,7 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import {build} from 'esbuild';
+import {buildASTSchema,parse,validate} from 'graphql';
 import {artworkInput,mediaPath,movePlan,newArtwork,PROJECT_ID,sameArtwork,settingsInput,uploadFilename} from '../tina/artist-model.mjs';
 
 const artwork={title:'Artwork',visible:true,order:10,category:'Illustration',image:'/assets/originals/art-01.jpg',preview:'/assets/previews/art-01.png',alt:'Image description',_sys:{relativePath:'art-01.json'}};
@@ -32,9 +33,11 @@ test('moving artwork changes presentation order and preserves visibility and ima
 const bundled=await build({entryPoints:['tina/artist-api.ts'],bundle:true,write:false,platform:'node',format:'esm'});
 const {createArtistAPI}=await import(`data:text/javascript;base64,${Buffer.from(bundled.outputFiles[0].text).toString('base64')}`);
 const baseline=JSON.parse(await readFile('content/settings.json','utf8'));
+const schema=buildASTSchema(JSON.parse(await readFile('tina/tina-lock.json','utf8')).graphql);
 function fakeCMS(){
   const state={items:[structuredClone(artwork)],settings:structuredClone(baseline),writes:[],uploads:[]};
   const cms={api:{tina:{isLocalMode:true,request:async(query,{variables})=>{
+    assert.deepEqual(validate(schema,parse(query)).map(error=>error.message),[],'Real adapter operations must validate against the committed Tina schema');
     if(query.includes('artworkConnection'))return {artworkConnection:{edges:state.items.map(node=>({node:structuredClone(node)})),pageInfo:{hasNextPage:false,endCursor:null}}};
     if(query.includes('StudioCheck('))return {artwork:structuredClone(state.items.find(a=>a._sys.relativePath===variables.path))};
     if(query.includes('StudioCheckPrices')||query.includes('query StudioPrices'))return {settings:structuredClone(state.settings)};
@@ -68,4 +71,14 @@ test('price changes preserve category colors, service notes and unknown currenci
 test('failed backend writes never produce fake success or reveal backend internals',async()=>{
   const api=createArtistAPI({api:{tina:{request:async()=>{throw Error('sensitive-internal-detail');}}}});
   await assert.rejects(()=>api.saveArtwork(artwork,null),error=>!error.message.includes('sensitive-internal-detail')&&error.message.includes('could not confirm'));
+});
+
+test('real upload adapter uses existing media transport and unique safe filenames',async()=>{
+  const {api,state}=fakeCMS();
+  const photo=new File([new Uint8Array([255,216,255,0])],'My picture.jpg',{type:'image/jpeg'});
+  const first=await api.upload(photo),second=await api.upload(photo);
+  assert.notEqual(first,second);
+  assert.match(first,/^\/assets\/originals\/artwork-[0-9a-f-]+\.jpg$/);
+  assert.equal(state.uploads[0][0].directory,'originals');
+  assert.equal(state.writes.length,0,'A photo upload does not silently publish an artwork record');
 });
