@@ -1,6 +1,6 @@
 import React, {useEffect,useRef,useState} from 'react';
 import {artworkInput,mediaPath,movePlan,newArtwork,savedMessage,sortedArtworks,uploadFilename,type Artwork,type PriceCard,type Settings} from './artist-model.mjs';
-import './artist.css';
+import {artistStyles} from './artist-styles';
 
 export type ArtistAPI={
   load():Promise<{artworks:Artwork[];settings:Settings}>;
@@ -39,7 +39,7 @@ export function ArtistApp({api,demo=false,initialData}: {api:ArtistAPI;demo?:boo
     await run(async()=>{const image=await api.upload(file);setDraft({...draft,image:mediaPath(image),preview:''});setDirty(true);},'Photo uploaded. Add a title, then save. The uploaded photo stays in your library if you cancel.');
   }
   const visible=data?.artworks.filter(a=>a.visible).length || 0;
-  return <main className="artist-app">
+  return <main className="artist-app"><style>{artistStyles}</style>
     {demo&&<div className="artist-demo">LOCAL PREVIEW · Sample edits stay in this tab. Nothing is published. Demo uploads use sample artwork; selected files are not uploaded.</div>}
     <header className="artist-header"><div><span className="artist-eyebrow">KABUTAN'S STUDIO</span><h1>Your website, your way.</h1><p>Add a photo, make a change, and save when you are ready.</p></div><a className="artist-button secondary" href={demo?'/':'https://kabutan-portfolio.pages.dev/'} target="_blank" rel="noopener noreferrer">Open website ↗</a></header>
     <nav className="artist-tabs" aria-label="Edit your website">{[['artwork','My artwork'],['prices','My prices'],['help','Saving & help']].map(([key,label])=><button key={key} aria-current={tab===key?'page':undefined} disabled={busy} onClick={()=>{if(leaveDraft()){setTab(key);setDraft(null);setPriceDraft(null);setDirty(false);}}}>{label}</button>)}</nav>

@@ -19,6 +19,13 @@ test('studio entry matches the actual installed Tina screen router and repairs o
   assert.equal(studioEntryRoute(START_ROUTE),null,'Do not reload a correctly registered screen');
 });
 
+test('real Tina config bundling retains artist styles without an external CSS asset',async()=>{
+  const result=await build({entryPoints:['tina/artist-app.tsx'],bundle:true,write:false,platform:'browser',format:'esm'});
+  assert.equal(result.outputFiles.length,1,'Styles must stay in the screen JS, not a dropped config CSS sidecar');
+  assert.ok(result.outputFiles[0].text.includes('.artist-app{'));
+  assert.ok(result.outputFiles[0].text.includes('artistStyles'));
+});
+
 const artwork={title:'Artwork',visible:true,order:10,category:'Illustration',image:'/assets/originals/art-01.jpg',preview:'/assets/previews/art-01.png',alt:'Image description',_sys:{relativePath:'art-01.json'}};
 test('simple editor creates hidden artwork with automatic IDs, order and accessible fallback',()=>{
   const draft=newArtwork([artwork],[{name:'Illustration'}],'unique-id');

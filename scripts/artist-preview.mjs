@@ -11,7 +11,7 @@ const artworks=await Promise.all(files.map(async name=>({...JSON.parse(await rea
 const settings=JSON.parse(await readFile(path.join(root,'content/settings.json'),'utf8'));
 await build({entryPoints:[path.join(root,'scripts/artist-preview.jsx')],bundle:true,outfile:path.join(output,'preview.js'),format:'esm',jsx:'automatic',define:{'process.env.NODE_ENV':'"production"'}});
 const json=JSON.stringify({artworks,settings}).replace(/</g,'\\u003c');
-await writeFile(path.join(output,'index.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kabutan - Simple editor preview</title><link rel="stylesheet" href="/preview.css"><style>body{margin:0;background:#fffdf8}</style></head><body><div id="root"></div><script id="preview-data" type="application/json">${json}</script><script type="module" src="/preview.js"></script></body></html>`);
+await writeFile(path.join(output,'index.html'),`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Kabutan - Simple editor preview</title><style>body{margin:0;background:#fffdf8}</style></head><body><div id="root"></div><script id="preview-data" type="application/json">${json}</script><script type="module" src="/preview.js"></script></body></html>`);
 console.log('Built local editor preview. All writes are in-memory simulations; authentication is not bypassed in the real CMS.');
 if(process.argv.includes('--serve')){
   const types={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.jpg':'image/jpeg','.png':'image/png','.webp':'image/webp','.gif':'image/gif'};
