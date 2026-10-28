@@ -1,0 +1,16 @@
+export type Artwork={title:string;visible:boolean;order:number;category:string;image:string;preview?:string;alt:string;_sys:{relativePath:string}};
+export type Row={label:string;note?:string;price:string;detail?:string};
+export type PriceCard={title:string;visible:boolean;rows?:Row[];note?:string;extra?:string};
+export type Settings={categories:{name:string;color:string;shadowColor?:string}[];menu:PriceCard[]};
+export const PROJECT_ID:string;
+export const START_ROUTE:string;
+export const savedMessage:string;
+export const artworkFields:string[];
+export function mediaPath(value:string):string;
+export function artworkInput(value:Artwork):Omit<Artwork,'_sys'>;
+export function sameArtwork(a:Artwork,b:Artwork):boolean;
+export function sortedArtworks(items:Artwork[]):Artwork[];
+export function movePlan(items:Artwork[],id:string,direction:number):Artwork[];
+export function newArtwork(items:Artwork[],categories:Settings['categories'],id:string):Artwork;
+export function uploadFilename(file:Pick<File,'name'|'type'|'size'>,id:string):string;
+export function settingsInput(value:Settings):Settings;

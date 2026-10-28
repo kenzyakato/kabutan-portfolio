@@ -7,3 +7,4 @@ dist/
 tina/__generated__/
 admin/
 *.log
+artist-preview/

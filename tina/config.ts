@@ -1,4 +1,5 @@
 import { defineConfig, type MediaUploadOptions } from 'tinacms';
+import { installArtistStudio } from './artist-screen';
 
 const string = (name: string, label: string, required = false) => ({type:'string' as const,name,label,required});
 export default defineConfig({
@@ -9,6 +10,7 @@ export default defineConfig({
   build: { outputFolder:'admin', publicFolder:'.', basePath:process.env.TINA_PUBLIC_BASE_PATH || '' },
   media: { tina:{ publicFolder:'.',mediaRoot:'assets' },accept:['image/png','image/jpeg','image/webp','image/gif'] },
   cmsCallback(cms) {
+    installArtistStudio(cms);
     // Keep Tina's repo-backed transport; enforce the site's stricter upload policy.
     // The provider may replace its store on render; guard the stable manager.
     Object.defineProperty(cms.media,'maxSize',{get:() => 24 * 1024 * 1024,configurable:true});
