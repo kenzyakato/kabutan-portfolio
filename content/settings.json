@@ -2,11 +2,13 @@
   "categories": [
     {
       "name": "Illustration",
-      "color": "#f28db2"
+      "color": "#f28db2",
+      "shadowColor": ""
     },
     {
       "name": "VTuber Models",
-      "color": "#f4d63a"
+      "color": "#f4d63a",
+      "shadowColor": ""
     },
     {
       "name": "Character Design",
@@ -96,7 +98,7 @@
       "visible": true,
       "rows": [
         {
-          "label": "Chibi/half body",
+          "label": "half body",
           "note": "",
           "price": "USD 75",
           "detail": ""
