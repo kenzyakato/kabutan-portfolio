@@ -1,5 +1,5 @@
 export type Artwork={title:string;visible:boolean;order:number;category:string;image:string;preview?:string;alt:string;_sys:{relativePath:string}};
-export type Row={label:string;note?:string;price:string;detail?:string};
+export type Row={label:string;note?:string;price:string;detail?:string;visible?:boolean;_draftKey?:string;_newRow?:boolean};
 export type PriceCard={title:string;visible:boolean;rows?:Row[];note?:string;extra?:string};
 export type Settings={categories:{name:string;color:string;shadowColor?:string}[];menu:PriceCard[]};
 export const PROJECT_ID:string;
@@ -15,3 +15,8 @@ export function movePlan(items:Artwork[],id:string,direction:number):Artwork[];
 export function newArtwork(items:Artwork[],categories:Settings['categories'],id:string):Artwork;
 export function uploadFilename(file:Pick<File,'name'|'type'|'size'>,id:string):string;
 export function settingsInput(value:Settings):Settings;
+export function newPriceCard():PriceCard;
+export function appendServiceRow(card:PriceCard):PriceCard;
+export function editPriceCard(card:PriceCard):PriceCard;
+export function applyPriceCard(settings:Settings,index:number,card:PriceCard):Settings;
+export function movePriceItem<T>(items:T[],index:number,direction:number):T[];

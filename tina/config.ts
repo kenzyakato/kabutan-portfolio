@@ -52,7 +52,7 @@ export default defineConfig({
         ]},
         {type:'object',name:'menu',label:'Pricing cards (drag to reorder)',list:true,ui:{defaultItem:{visible:false,rows:[]},itemProps:item => ({label:item?.title})},fields:[
           string('title','Service category title',true),{type:'boolean',name:'visible',label:'Show on website',required:true},
-          {type:'object',name:'rows',label:'Services and prices (drag to reorder)',list:true,ui:{itemProps:item => ({label:item?.label})},fields:[string('label','Service name',true),string('note','Service note'),string('price','Full price text (include the confirmed currency)',true),string('detail','Price note')]},
+          {type:'object',name:'rows',label:'Services and prices (drag to reorder)',list:true,ui:{itemProps:item => ({label:item?.label})},fields:[{type:'boolean',name:'visible',label:'Show this service row on website'},string('label','Service name',true),string('note','Service note'),string('price','Full price text (include the confirmed currency)',true),string('detail','Price note')]},
           {...string('note','Card note'),ui:{component:'textarea'}},string('extra','Extra item pricing (leave empty for standard cards)')
         ]}
       ]

@@ -50,5 +50,33 @@ export function uploadFilename(file,id) {
   return `artwork-${id}.${extension}`;
 }
 export function settingsInput(value) {
-  return {categories:value.categories.map(c=>pick(c,['name','color','shadowColor'])),menu:value.menu.map(c=>({...pick(c,['title','visible','note','extra']),rows:(c.rows || []).map(r=>pick(r,['label','note','price','detail']))}))};
+  return {categories:value.categories.map(c=>pick(c,['name','color','shadowColor'])),menu:value.menu.map(c=>({...pick(c,['title','visible','note','extra']),rows:(c.rows || []).map(r=>({...pick(r,['label','note','price','detail']),...(typeof r.visible==='boolean'?{visible:r.visible}:{})}))}))};
+}
+export function newPriceCard() {
+  return appendServiceRow({title:'',visible:false,rows:[],note:'',extra:''});
+}
+export function appendServiceRow(card) {
+  return {...card,rows:[...(card.rows||[]),{label:'',price:'',visible:true,_draftKey:crypto.randomUUID(),_newRow:true}]};
+}
+export function editPriceCard(card) {
+  return {...structuredClone(card),rows:(card.rows||[]).map(row=>({...row,_draftKey:crypto.randomUUID()}))};
+}
+export function applyPriceCard(settings,index,card) {
+  if(!card.title.trim())throw Error('Please add a card title.');
+  for(const [rowIndex,row] of (card.rows||[]).entries()) {
+    if(!row.label.trim())throw Error(`Please add a service name for row ${rowIndex+1}.`);
+    if(!row.price.trim())throw Error(`Please add a price for row ${rowIndex+1}.`);
+  }
+  if(!(card.rows||[]).length&&!card.extra?.trim()&&!(index<settings.menu.length&&card.note?.trim()))throw Error('Add a service row or enter price text before saving.');
+  if(!Number.isInteger(index)||index<0||index>settings.menu.length)throw Error('Reload the price cards before saving.');
+  const result=structuredClone(settings);
+  result.menu[index]=structuredClone(card);
+  result.menu[index].rows=(card.rows||[]).map(({_draftKey,_newRow,...row})=>structuredClone(row));
+  return result;
+}
+export function movePriceItem(items,index,direction) {
+  const result=[...items],target=index+direction;
+  if(index<0||index>=result.length||target<0||target>=result.length)return result;
+  [result[index],result[target]]=[result[target],result[index]];
+  return result;
 }

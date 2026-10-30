@@ -3,7 +3,7 @@ import type { ArtistAPI } from './artist-app';
 import {artworkInput,mediaPath,PROJECT_ID,sameArtwork,settingsInput,uploadFilename,type Artwork,type Settings} from './artist-model.mjs';
 
 const artSelection='title visible order category image preview alt _sys { relativePath }';
-const settingsSelection='categories { name color shadowColor } menu { title visible rows { label note price detail } note extra }';
+const settingsSelection='categories { name color shadowColor } menu { title visible rows { label note price detail visible } note extra }';
 const cleanArtwork=(value:Artwork):Artwork=>({...value,image:mediaPath(value.image),preview:mediaPath(value.preview||'')});
 export function createArtistAPI(cms:TinaCMS):ArtistAPI {
   const request=<T,>(query:string,variables:object={})=>cms.api.tina!.request<T>(query,{variables});
@@ -20,7 +20,7 @@ export function createArtistAPI(cms:TinaCMS):ArtistAPI {
     const result=await request<{settings:Settings}>(`query StudioPrices{settings(relativePath:"settings.json"){${settingsSelection}}}`);
     return {artworks,settings:{...result.settings,categories:result.settings.categories||[],menu:result.settings.menu||[]}};
   }
-  const changed='This was changed in another window. Reload content before editing it again.';
+  const changed='This was changed in another window. Copy your unsaved text first, then Reload content before editing it again.';
   async function guarded<T>(action:()=>Promise<T>):Promise<T>{
     try{return await action();}catch(error){
       if(error instanceof Error&&[changed,'Please add a title.','Please choose a photo.','Please choose a category.','Choose an image from this website.'].includes(error.message))throw error;

@@ -81,6 +81,21 @@ test('category filters render untrusted labels as text, with correct counts',asy
   assert.equal(nodes.heroChips.children[0].textContent,malicious);
 });
 
+test('service rows hide and restore without deletion and omit empty price markup',async()=>{
+  const temp=await fixtureWorkspace();
+  try {
+    const file=path.join(temp,'content/settings.json'),settings=JSON.parse(await readFile(file,'utf8'));
+    const card=settings.menu[0],original=structuredClone(card.rows);card.rows.forEach(row=>row.visible=false);card.extra='   ';
+    await writeFile(file,JSON.stringify(settings));let html=await build(temp);
+    const rendered=html.slice(html.indexOf('<article class="price-card'),html.indexOf('</article>',html.indexOf('<article class="price-card')));
+    assert.ok(!rendered.includes('<dl>'));assert.ok(!rendered.includes('extra-price'));assert.ok(!rendered.includes(original[0].label));
+    card.rows[0].visible=true;await writeFile(file,JSON.stringify(settings));html=await build(temp);
+    const restored=html.slice(html.indexOf('<article class="price-card'),html.indexOf('</article>',html.indexOf('<article class="price-card')));
+    assert.ok(restored.includes(original[0].label));assert.ok(restored.includes(original[0].price));
+    assert.equal(card.rows.length,original.length);assert.deepEqual(card.rows.map(({visible,...row})=>row),original);
+  }finally{await rm(temp,{recursive:true,force:true});}
+});
+
 test('rejects disguised SVG content even with a permitted image extension',async () => {
   const temp=await mkdtemp(path.join(os.tmpdir(),'kabutan-image-'));
   try {

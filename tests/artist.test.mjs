@@ -5,6 +5,7 @@ import {build} from 'esbuild';
 import {buildASTSchema,parse,validate} from 'graphql';
 import {artworkInput,mediaPath,movePlan,newArtwork,PROJECT_ID,sameArtwork,settingsInput,START_ROUTE,studioEntryRoute,uploadFilename} from '../tina/artist-model.mjs';
 import {runInNewContext} from 'node:vm';
+import {newPriceCard,appendServiceRow,applyPriceCard,editPriceCard,movePriceItem} from '../tina/artist-model.mjs';
 
 test('studio entry matches the actual installed Tina screen router and repairs old links',async()=>{
   const source=await readFile('node_modules/tinacms/dist/index.js','utf8');
@@ -53,7 +54,46 @@ test('moving artwork changes presentation order and preserves visibility and ima
 
 const bundled=await build({entryPoints:['tina/artist-api.ts'],bundle:true,write:false,platform:'node',format:'esm'});
 const {createArtistAPI}=await import(`data:text/javascript;base64,${Buffer.from(bundled.outputFiles[0].text).toString('base64')}`);
-const baseline=JSON.parse(await readFile('content/settings.json','utf8'));
+const baseline=JSON.parse(await readFile('tests/fixtures/content/settings.json','utf8'));
+test('new cards and rows validate without changing current artist content',()=>{
+  const before=structuredClone(baseline),draft=newPriceCard();
+  assert.equal(draft.visible,false);assert.throws(()=>applyPriceCard(baseline,baseline.menu.length,draft),/card title/);
+  draft.title='QA card';assert.throws(()=>applyPriceCard(baseline,baseline.menu.length,draft),/service name/);
+  draft.rows[0].label='QA service';assert.throws(()=>applyPriceCard(baseline,baseline.menu.length,draft),/price/);
+  draft.rows[0].price='QA 123';const withRows=appendServiceRow(appendServiceRow(draft));
+  assert.notEqual(withRows.rows[1]._draftKey,withRows.rows[2]._draftKey);
+  assert.equal(draft.rows.length,1,'Adding rows is immutable');
+  const saved=applyPriceCard(baseline,baseline.menu.length,draft);
+  assert.deepEqual(saved.menu.slice(0,-1),before.menu);assert.deepEqual(saved.categories,before.categories);
+  assert.ok(!('_draftKey' in saved.menu.at(-1).rows[0]));assert.deepEqual(baseline,before);
+  const cancelled=movePriceItem(withRows.rows,2,-1).filter(r=>r._draftKey!==withRows.rows[1]._draftKey);
+  assert.equal(cancelled.length,2);assert.equal(cancelled[0].label,'QA service');
+});
+test('row visibility is backwards compatible and sorting is non-destructive',()=>{
+  const oldSettings=structuredClone(baseline);for(const card of oldSettings.menu)for(const row of card.rows||[])delete row.visible;const legacy=settingsInput(oldSettings);assert.ok(legacy.menu.every(c=>c.rows.every(r=>!('visible' in r))));
+  const updated=structuredClone(baseline);updated.menu[0].rows[0].visible=false;
+  assert.equal(settingsInput(updated).menu[0].rows[0].visible,false);
+  updated.menu[0].rows[0].visible=true;assert.equal(settingsInput(updated).menu[0].rows[0].visible,true);
+  const sorted=movePriceItem(baseline.menu,1,-1);assert.equal(sorted[0].title,baseline.menu[1].title);
+  assert.equal(sorted.length,baseline.menu.length);assert.deepEqual(movePriceItem(sorted,0,1),baseline.menu);
+});
+test('editing retains stable row identities, accepts existing note-only cards and strips all draft metadata',()=>{
+  const draft=editPriceCard(baseline.menu[0]);
+  assert.ok(draft.rows.every(row=>row._draftKey&&!row._newRow));
+  const moved=movePriceItem(draft.rows,0,1);assert.equal(moved[1]._draftKey,draft.rows[0]._draftKey);
+  const added=appendServiceRow(draft);assert.equal(added.rows.at(-1)._newRow,true);
+  added.rows.at(-1).label='New';added.rows.at(-1).price='User-entered';
+  const saved=applyPriceCard(baseline,0,added);assert.ok(saved.menu[0].rows.every(row=>!('_draftKey' in row)&&!('_newRow' in row)));
+  const noteOnly={title:'Note card',visible:true,note:'Existing note',rows:[]};
+  assert.equal(applyPriceCard({...baseline,menu:[noteOnly]},0,{...noteOnly,note:'Edited'}).menu[0].note,'Edited');
+  assert.throws(()=>applyPriceCard(baseline,baseline.menu.length,noteOnly),/service row/);
+});
+test('appending to the actual editable content preserves every existing value',async()=>{
+  const current=JSON.parse(await readFile('content/settings.json','utf8')),before=structuredClone(current);
+  const draft=newPriceCard();draft.title='QA only';draft.rows[0].label='QA';draft.rows[0].price='QA';
+  const result=applyPriceCard(current,current.menu.length,draft);
+  assert.deepEqual(result.menu.slice(0,-1),before.menu);assert.deepEqual(result.categories,before.categories);assert.deepEqual(current,before);
+});
 const schema=buildASTSchema(JSON.parse(await readFile('tina/tina-lock.json','utf8')).graphql);
 function fakeCMS(){
   const state={items:[structuredClone(artwork)],settings:structuredClone(baseline),writes:[],uploads:[]};
@@ -88,6 +128,16 @@ test('price changes preserve category colors, service notes and unknown currenci
   assert.equal(state.settings.menu[0].rows[0].note,baseline.menu[0].rows[0].note);
   assert.equal(state.settings.menu[2].rows[1].price,'120 ');
   await assert.rejects(()=>api.savePrices(updated,loaded.settings),/another window/);
+});
+test('adding a card through the adapter preserves all existing cards and rejects a stale duplicate save',async()=>{
+  const {api,state}=fakeCMS();const original=(await api.load()).settings;
+  const card=newPriceCard();card.title='QA card';card.rows[0].label='QA service';card.rows[0].price='QA 123';
+  const updated=applyPriceCard(original,original.menu.length,card);
+  await api.savePrices(updated,original);
+  assert.deepEqual(state.settings.menu.slice(0,-1),settingsInput(original).menu);
+  assert.equal(state.settings.menu.length,original.menu.length+1);
+  await assert.rejects(()=>api.savePrices(updated,original),/another window/);
+  assert.equal(state.writes.length,1);
 });
 test('failed backend writes never produce fake success or reveal backend internals',async()=>{
   const api=createArtistAPI({api:{tina:{request:async()=>{throw Error('sensitive-internal-detail');}}}});
