@@ -14,7 +14,8 @@ createServer(async (req,res) => {
     const url=new URL(req.url,'http://localhost');
     let pathname=decodeURIComponent(url.pathname);
     if (pathname.endsWith('/')) pathname+='index.html';
-    const base=pathname.startsWith('/admin/') ? root : path.join(root,'dist');
+    // Newly uploaded local photos must be available before the watched site rebuild finishes.
+    const base=pathname.startsWith('/admin/')||pathname.startsWith('/assets/') ? root : path.join(root,'dist');
     const file=path.resolve(base,'.'+pathname);
     if (!file.startsWith(base+path.sep)) {res.writeHead(403).end();return;}
     res.setHeader('Content-Type',types[path.extname(file)]||'application/octet-stream');

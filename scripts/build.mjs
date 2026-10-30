@@ -1,6 +1,7 @@
 import { readFile, readdir, mkdir, writeFile, cp, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import {sectionsInput} from '../tina/section-model.mjs';
 import { imageSize } from 'image-size';
 
 export const root = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
@@ -49,7 +50,9 @@ export async function loadContent(directory = root) {
     if (typeof card.visible !== 'boolean' || !Array.isArray(card.rows)) throw Error('Invalid menu card');
     for (const row of card.rows) { text(row.label, 'Service name'); text(row.price, 'Price text'); }
   }
-  return { settings, artworks: artworks.sort((a,b) => a.order-b.order || a.id.localeCompare(b.id)) };
+  let sections=[];try{sections=sectionsInput(JSON.parse(await readFile(path.join(directory,'content/sections.json'),'utf8')).items||[]);}catch(error){if(error.code!=='ENOENT')throw error;}
+  for(const item of sections)if(item.image)item.photo=await mediaInfo(item.image,directory);
+  return { sections, settings, artworks: artworks.sort((a,b) => a.order-b.order || a.id.localeCompare(b.id)) };
 }
 
 export async function build(directory = root, output = path.join(directory, 'dist')) {
@@ -61,7 +64,7 @@ export async function build(directory = root, output = path.join(directory, 'dis
     }
   }
   await checkAssets(path.join(directory,'assets'));
-  const { settings, artworks } = await loadContent(directory);
+  const { settings, artworks, sections } = await loadContent(directory);
   const visible = artworks.filter(a => a.visible);
   const tags = Object.fromEntries(settings.categories.map(c => [c.name, c.color]));
   const shadows = Object.fromEntries(settings.categories.map(c => [c.name, c.shadowColor || c.color]));
@@ -70,11 +73,12 @@ export async function build(directory = root, output = path.join(directory, 'dis
   const gallery = visible.map((a,i) => `<figure class="card" data-cat="${escape(a.category)}" style="transform:rotate(${rotations[i % rotations.length]}deg)"><button class="art" type="button" data-open="${escape(a.id)}" aria-label="View full size: ${escape(a.title)}" style="box-shadow:6px 6px 0 ${shadows[a.category]}">${image(a)}</button><figcaption><span class="t">${escape(a.title)}</span><span class="cat" style="background:${tags[a.category]}">${escape(a.category)}</span></figcaption></figure>`).join('\n');
   const small = s => s ? `<small>${escape(s)}</small>` : '';
   const menu = settings.menu.filter(c => c.visible).map(c => `<article class="price-card${c.extra?.trim() ? ' extras' : ''}"><h3 class="h">${escape(c.title)}</h3>${c.rows.some(r => r.visible !== false) ? `<dl>${c.rows.filter(r => r.visible !== false).map(r => `<dt>${escape(r.label)}${small(r.note)}</dt><dd>${escape(r.price)}${small(r.detail)}</dd>`).join('')}</dl>` : ''}${c.note ? `<p>${escape(c.note)}</p>` : ''}${c.extra?.trim() ? `<p class="extra-price">${escape(c.extra)}</p>` : ''}</article>`).join('\n');
+  const customSections=sections.filter(s=>s.visible).map(s=>`<section class="wrap custom-section" aria-labelledby="section-${escape(s.id)}"><div class="custom-section-paper"><h2 class="h" id="section-${escape(s.id)}">${escape(s.title)}</h2>${s.body.trim()?`<div class="custom-section-text">${escape(s.body)}</div>`:''}${s.photo?`<img src="${escape(s.photo.src)}" width="${s.photo.width}" height="${s.photo.height}" loading="lazy" decoding="async" alt="${escape(s.alt)}">`:''}</div></section>`).join('\n');
   let html = await readFile(path.join(directory, 'templates/index.html'), 'utf8');
-  html = html.replace('<!-- CMS:GALLERY -->', gallery).replace('<!-- CMS:MENU -->', menu).replace('<!-- CMS:COUNT -->', `${visible.length} works.`);
+  html = html.replace('<!-- CMS:SECTIONS -->', () => customSections).replace('<!-- CMS:GALLERY -->', () => gallery).replace('<!-- CMS:MENU -->', () => menu).replace('<!-- CMS:COUNT -->', `${visible.length} works.`);
   // JSON used inside a script must also escape < to prevent closing the script tag.
   const js = value => JSON.stringify(value).replace(/</g, '\\u003c');
-  html = html.replace('<!-- CMS:CATEGORIES -->', `const CATS=${js(['All', ...settings.categories.map(c => c.name)])};\nconst TAG=${js(tags)};`);
+  html = html.replace('<!-- CMS:CATEGORIES -->', () => `const CATS=${js(['All', ...settings.categories.map(c => c.name)])};\nconst TAG=${js(tags)};`);
   let heroIndex = 0;
   html = html.replace(/<button class="(frame|sticker)"[\s\S]*?<\/button>/g, (original, cls) => {
     const preferred = cls === 'frame' ? 'design-01' : 'vtuber-06';

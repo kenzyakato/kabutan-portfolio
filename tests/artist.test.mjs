@@ -96,14 +96,16 @@ test('appending to the actual editable content preserves every existing value',a
 });
 const schema=buildASTSchema(JSON.parse(await readFile('tina/tina-lock.json','utf8')).graphql);
 function fakeCMS(){
-  const state={items:[structuredClone(artwork)],settings:structuredClone(baseline),writes:[],uploads:[]};
+  const state={items:[structuredClone(artwork)],settings:structuredClone(baseline),sections:[],writes:[],uploads:[]};
   const cms={api:{tina:{isLocalMode:true,request:async(query,{variables})=>{
     assert.deepEqual(validate(schema,parse(query)).map(error=>error.message),[],'Real adapter operations must validate against the committed Tina schema');
     if(query.includes('artworkConnection'))return {artworkConnection:{edges:state.items.map(node=>({node:structuredClone(node)})),pageInfo:{hasNextPage:false,endCursor:null}}};
     if(query.includes('StudioCheck('))return {artwork:structuredClone(state.items.find(a=>a._sys.relativePath===variables.path))};
     if(query.includes('StudioCheckPrices')||query.includes('query StudioPrices'))return {settings:structuredClone(state.settings)};
+    if(query.includes('query StudioSections')||query.includes('StudioCheckSections')){if(state.sectionsError)throw Error('Sections unavailable');return {sections:state.missingSections?null:{items:structuredClone(state.sections)}};}
     state.writes.push({query,variables:structuredClone(variables)});
-    if(query.includes('updateSettings'))state.settings=structuredClone(variables.params);
+    if(query.includes('updateSections'))state.sections=structuredClone(variables.params.items);
+    else if(query.includes('updateSettings'))state.settings=structuredClone(variables.params);
     else {const item={...variables.params,_sys:{relativePath:variables.path}};state.items=query.includes('createArtwork')?[...state.items,item]:state.items.map(a=>a._sys.relativePath===variables.path?item:a);}
     return {};
   }}},media:{persist:async files=>{state.uploads.push(files);return files.map(({file})=>({filename:file.name,src:`/assets/originals/${file.name}`}));}}};
@@ -153,3 +155,11 @@ test('real upload adapter uses existing media transport and unique safe filename
   assert.equal(state.uploads[0][0].directory,'originals');
   assert.equal(state.writes.length,0,'A photo upload does not silently publish an artwork record');
 });
+
+ test('section adapter isolates new content and rejects stale or duplicate saves',async()=>{
+ const {api,state}=fakeCMS(),loaded=await api.load();assert.deepEqual(loaded.sections,[]);const before=structuredClone(state.settings),art=structuredClone(state.items);
+ const item={id:'qa',title:'QA',body:'User text',image:'',alt:'',visible:false};await api.saveSections([item],loaded.sections);assert.deepEqual(state.sections,[item]);
+ await assert.rejects(()=>api.saveSections([item],loaded.sections),/another window/);assert.equal(state.writes.length,1);assert.deepEqual(state.settings,before);assert.deepEqual(state.items,art);
+ });
+
+test('unavailable or malformed sections never block artwork or price editing or allow destructive empty saves',async()=>{const {api,state}=fakeCMS();for(const issue of ['error','missing','malformed']){state.sectionsError=issue==='error';state.missingSections=issue==='missing';state.sections=issue==='malformed'?[{id:'bad'}]:[];const loaded=await api.load();assert.equal(loaded.sectionsUnavailable,true);assert.equal(loaded.sections,undefined);assert.equal(loaded.artworks.length,1);assert.deepEqual(loaded.settings,baseline);await assert.rejects(()=>api.saveSections([],[]));assert.equal(state.writes.length,0);}});

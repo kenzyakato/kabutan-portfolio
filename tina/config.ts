@@ -1,5 +1,6 @@
 import { defineConfig, type MediaUploadOptions } from 'tinacms';
 import { installArtistStudio } from './artist-screen';
+import {sectionsInput,newSection} from './section-model.mjs';
 
 const string = (name: string, label: string, required = false) => ({type:'string' as const,name,label,required});
 export default defineConfig({
@@ -29,6 +30,17 @@ export default defineConfig({
     return cms;
   },
   schema: {collections:[
+    {
+      name:'sections',label:'Custom sections',path:'content',format:'json',match:{include:'sections'},
+      ui:{allowedActions:{create:false,delete:false}},fields:[
+        {type:'object',name:'items',label:'Sections (after Gallery, before Commissions)',list:true,ui:{defaultItem:()=>newSection(),itemProps:item=>({label:item?.title}),validate:items=>{try{sectionsInput(items||[]);}catch(error){return (error as Error).message;}}},fields:[
+          {...string('id','Internal section ID',true),ui:{component:'hidden'}},string('title','Section title',true),
+          {...string('body','Text (plain text; line breaks are kept)'),ui:{component:'textarea'}},
+          {type:'image',name:'image',label:'Photo (optional)'},string('alt','Photo description (optional; uses the title if empty)'),
+          {type:'boolean',name:'visible',label:'Show on website',required:true}
+        ]}
+      ]
+    },
     {
       name:'artwork',label:'Artwork',path:'content/artworks',format:'json',
       defaultItem:{visible:false,order:1000,category:'Illustration'},

@@ -1,9 +1,11 @@
 import type { TinaCMS } from 'tinacms';
 import type { ArtistAPI } from './artist-app';
+import {sectionsInput,type ContentSection} from './section-model.mjs';
 import {artworkInput,mediaPath,PROJECT_ID,sameArtwork,settingsInput,uploadFilename,type Artwork,type Settings} from './artist-model.mjs';
 
 const artSelection='title visible order category image preview alt _sys { relativePath }';
 const settingsSelection='categories { name color shadowColor } menu { title visible rows { label note price detail visible } note extra }';
+const sectionsSelection='items { id title body image alt visible }';
 const cleanArtwork=(value:Artwork):Artwork=>({...value,image:mediaPath(value.image),preview:mediaPath(value.preview||'')});
 export function createArtistAPI(cms:TinaCMS):ArtistAPI {
   const request=<T,>(query:string,variables:object={})=>cms.api.tina!.request<T>(query,{variables});
@@ -18,9 +20,13 @@ export function createArtistAPI(cms:TinaCMS):ArtistAPI {
       after=next;
     }
     const result=await request<{settings:Settings}>(`query StudioPrices{settings(relativePath:"settings.json"){${settingsSelection}}}`);
-    return {artworks,settings:{...result.settings,categories:result.settings.categories||[],menu:result.settings.menu||[]}};
+    const core={artworks,settings:{...result.settings,categories:result.settings.categories||[],menu:result.settings.menu||[]}};
+    try {
+      const extra=await request<{sections:{items:ContentSection[]}}>(`query StudioSections{sections(relativePath:"sections.json"){${sectionsSelection}}}`);
+      return {...core,sections:sectionsInput(extra.sections.items||[])};
+    }catch{return {...core,sectionsUnavailable:true};}
   }
-  const changed='This was changed in another window. Copy your unsaved text first, then Reload content before editing it again.';
+  const changed='This was changed in another window, or your last save may already have gone through. Copy your unsaved text first, then Reload content to check.';
   async function guarded<T>(action:()=>Promise<T>):Promise<T>{
     try{return await action();}catch(error){
       if(error instanceof Error&&[changed,'Please add a title.','Please choose a photo.','Please choose a category.','Choose an image from this website.'].includes(error.message))throw error;
@@ -38,6 +44,11 @@ export function createArtistAPI(cms:TinaCMS):ArtistAPI {
   return {
     imageURL:path=>cms.api.tina!.isLocalMode ? path : `https://assets.tina.io/${PROJECT_ID}/${mediaPath(path).replace(/^\/assets\//,'')}`,
     load:()=>guarded(load),saveArtwork,
+    saveSections:(items,original)=>guarded(async()=>{
+      const latest=await request<{sections:{items:ContentSection[]}}>(`query StudioCheckSections{sections(relativePath:"sections.json"){${sectionsSelection}}}`);
+      if(JSON.stringify(sectionsInput(latest.sections.items||[]))!==JSON.stringify(sectionsInput(original)))throw Error(changed);
+      await request('mutation StudioSections($params:SectionsMutation!){updateSections(relativePath:"sections.json",params:$params){id}}',{params:{items:sectionsInput(items)}});
+    }),
     savePrices:(settings,original)=>guarded(async()=>{
       const latest=await request<{settings:Settings}>(`query StudioCheckPrices{settings(relativePath:"settings.json"){${settingsSelection}}}`);
       if(JSON.stringify(settingsInput(latest.settings))!==JSON.stringify(settingsInput(original)))throw Error(changed);
