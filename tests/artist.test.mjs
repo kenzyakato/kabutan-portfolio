@@ -102,9 +102,9 @@ function fakeCMS(){
     if(query.includes('artworkConnection'))return {artworkConnection:{edges:state.items.map(node=>({node:structuredClone(node)})),pageInfo:{hasNextPage:false,endCursor:null}}};
     if(query.includes('StudioCheck('))return {artwork:structuredClone(state.items.find(a=>a._sys.relativePath===variables.path))};
     if(query.includes('StudioCheckPrices')||query.includes('query StudioPrices'))return {settings:structuredClone(state.settings)};
-    if(query.includes('query StudioSections')||query.includes('StudioCheckSections')){if(state.sectionsError)throw Error('Sections unavailable');return {sections:state.missingSections?null:{items:structuredClone(state.sections)}};}
+    if(query.includes('query StudioSections')||query.includes('StudioCheckSections')){if(state.sectionsError)throw Error('Sections unavailable');return {sections:state.missingSections?null:{items:structuredClone(state.sections),layout:state.sectionLayout,history:state.sectionHistory,socials:state.socials}};}
     state.writes.push({query,variables:structuredClone(variables)});
-    if(query.includes('updateSections'))state.sections=structuredClone(variables.params.items);
+    if(query.includes('updateSections')){state.sections=structuredClone(variables.params.items);state.sectionLayout=structuredClone(variables.params.layout);state.sectionHistory=structuredClone(variables.params.history);state.socials=structuredClone(variables.params.socials);}
     else if(query.includes('updateSettings'))state.settings=structuredClone(variables.params);
     else {const item={...variables.params,_sys:{relativePath:variables.path}};state.items=query.includes('createArtwork')?[...state.items,item]:state.items.map(a=>a._sys.relativePath===variables.path?item:a);}
     return {};
@@ -163,3 +163,5 @@ test('real upload adapter uses existing media transport and unique safe filename
  });
 
 test('unavailable or malformed sections never block artwork or price editing or allow destructive empty saves',async()=>{const {api,state}=fakeCMS();for(const issue of ['error','missing','malformed']){state.sectionsError=issue==='error';state.missingSections=issue==='missing';state.sections=issue==='malformed'?[{id:'bad'}]:[];const loaded=await api.load();assert.equal(loaded.sectionsUnavailable,true);assert.equal(loaded.sections,undefined);assert.equal(loaded.artworks.length,1);assert.deepEqual(loaded.settings,baseline);await assert.rejects(()=>api.saveSections([],[]));assert.equal(state.writes.length,0);}});
+
+test('page saves create one bounded recoverable snapshot and protect layout/social concurrency',async()=>{const {api,state}=fakeCMS();const first=await api.load(),original=first.sectionPage;const next=structuredClone(original);next.layout[0].visible=false;await api.saveSectionPage(next,original);assert.equal(state.sectionHistory.length,1);assert.equal(state.sectionHistory[0].layout[0].visible,true);assert.equal(state.sectionLayout[0].visible,false);assert.deepEqual(state.settings,baseline);assert.deepEqual(state.items,[artwork]);await assert.rejects(()=>api.saveSectionPage(original,original),/another window/);const loaded=await api.load();state.socials[0].label='External edit';await assert.rejects(()=>api.saveSectionPage(loaded.sectionPage,loaded.sectionPage),/another window/);assert.equal(state.writes.length,1);});

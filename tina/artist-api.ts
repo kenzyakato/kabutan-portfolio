@@ -1,11 +1,14 @@
 import type { TinaCMS } from 'tinacms';
 import type { ArtistAPI } from './artist-app';
-import {sectionsInput,type ContentSection} from './section-model.mjs';
+import {sectionsInput,sectionPageInput,withSectionHistory,type ContentSection,type SectionPage,type PageContent} from './section-model.mjs';
 import {artworkInput,mediaPath,PROJECT_ID,sameArtwork,settingsInput,uploadFilename,type Artwork,type Settings} from './artist-model.mjs';
 
 const artSelection='title visible order category image preview alt _sys { relativePath }';
 const settingsSelection='categories { name color shadowColor } menu { title visible rows { label note price detail visible } note extra }';
-const sectionsSelection='items { id title body image alt visible }';
+const sectionFields='id title body image alt visible kind artworkIds questions { id question answer visible }';
+const layoutFields='key visible';
+const socialFields='id name url label visible';
+const sectionsSelection=`socials { ${socialFields} } items { ${sectionFields} } layout { ${layoutFields} } history { id createdAt items { ${sectionFields} } layout { ${layoutFields} } }`;
 const cleanArtwork=(value:Artwork):Artwork=>({...value,image:mediaPath(value.image),preview:mediaPath(value.preview||'')});
 export function createArtistAPI(cms:TinaCMS):ArtistAPI {
   const request=<T,>(query:string,variables:object={})=>cms.api.tina!.request<T>(query,{variables});
@@ -22,8 +25,8 @@ export function createArtistAPI(cms:TinaCMS):ArtistAPI {
     const result=await request<{settings:Settings}>(`query StudioPrices{settings(relativePath:"settings.json"){${settingsSelection}}}`);
     const core={artworks,settings:{...result.settings,categories:result.settings.categories||[],menu:result.settings.menu||[]}};
     try {
-      const extra=await request<{sections:{items:ContentSection[]}}>(`query StudioSections{sections(relativePath:"sections.json"){${sectionsSelection}}}`);
-      return {...core,sections:sectionsInput(extra.sections.items||[])};
+      const extra=await request<{sections:SectionPage}>(`query StudioSections{sections(relativePath:"sections.json"){${sectionsSelection}}}`);
+      const sectionPage=sectionPageInput(extra.sections);return {...core,sections:sectionPage.items,sectionPage};
     }catch{return {...core,sectionsUnavailable:true};}
   }
   const changed='This was changed in another window, or your last save may already have gone through. Copy your unsaved text first, then Reload content to check.';
@@ -41,13 +44,18 @@ export function createArtistAPI(cms:TinaCMS):ArtistAPI {
     const operation=original?'updateArtwork':'createArtwork';
     await request(`mutation StudioSave($path:String!,$params:ArtworkMutation!){${operation}(relativePath:$path,params:$params){id}}`,{path:id,params:artworkInput(item)});
   });}
+  async function saveSectionPage(next:PageContent,original:SectionPage){return guarded(async()=>{
+    const latest=await request<{sections:SectionPage}>(`query StudioCheckSections{sections(relativePath:"sections.json"){${sectionsSelection}}}`);
+    const current=sectionPageInput(latest.sections);if(JSON.stringify(current)!==JSON.stringify(sectionPageInput(original)))throw Error(changed);
+    await request('mutation StudioSections($params:SectionsMutation!){updateSections(relativePath:"sections.json",params:$params){id}}',{params:withSectionHistory(next,current)});
+  });}
   return {
     imageURL:path=>cms.api.tina!.isLocalMode ? path : `https://assets.tina.io/${PROJECT_ID}/${mediaPath(path).replace(/^\/assets\//,'')}`,
-    load:()=>guarded(load),saveArtwork,
+    load:()=>guarded(load),saveArtwork,saveSectionPage,
     saveSections:(items,original)=>guarded(async()=>{
-      const latest=await request<{sections:{items:ContentSection[]}}>(`query StudioCheckSections{sections(relativePath:"sections.json"){${sectionsSelection}}}`);
-      if(JSON.stringify(sectionsInput(latest.sections.items||[]))!==JSON.stringify(sectionsInput(original)))throw Error(changed);
-      await request('mutation StudioSections($params:SectionsMutation!){updateSections(relativePath:"sections.json",params:$params){id}}',{params:{items:sectionsInput(items)}});
+      const latest=await request<{sections:SectionPage}>(`query StudioCheckSections{sections(relativePath:"sections.json"){${sectionsSelection}}}`);const current=sectionPageInput(latest.sections);
+      if(JSON.stringify(current.items)!==JSON.stringify(sectionsInput(original)))throw Error(changed);
+      await saveSectionPage({...current,items},current);
     }),
     savePrices:(settings,original)=>guarded(async()=>{
       const latest=await request<{settings:Settings}>(`query StudioCheckPrices{settings(relativePath:"settings.json"){${settingsSelection}}}`);

@@ -10,6 +10,7 @@
 <style>
 :root{--cream:#fbf4e2;--paper:#fffaf0;--ink:#1e2b1b;--muted:#4a5645;--deep:#2c5226;--green:#4f8a3c;--leaf:#6aa04e;--mint:#b7d99a;--pink:#f28db2;--rasp:#b8436c;--yellow:#f4d63a;--line:#c9bf9f}
 *{box-sizing:border-box}
+[hidden]{display:none!important}.custom-faq{margin:24px 0;border-top:1px dashed var(--line);padding-top:18px}.custom-faq summary{font-weight:800;cursor:pointer;overflow-wrap:anywhere}.custom-showcase{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:24px;margin-top:28px}.custom-showcase figure{margin:0}.custom-showcase img{width:100%;height:280px;object-fit:contain;margin:0}.custom-showcase figcaption{font-weight:700;margin-top:10px;overflow-wrap:anywhere}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--cream);background-image:radial-gradient(#e9dfc3 1.2px,transparent 1.2px);background-size:22px 22px;color:var(--ink);font:400 16px/1.55 'Nunito',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 img{display:block;max-width:100%}
@@ -207,6 +208,7 @@ function renderFilters(){
     return b;
   }
   $('filters').replaceChildren(...CATS.map(c=>button(c,false)));
+  $('heroChips').hidden=$('gallery').hidden;
   $('heroChips').replaceChildren(...CATS.slice(1).map(c=>button(c,true)));
 }
 function setFilter(c,jump){
@@ -218,6 +220,12 @@ function setFilter(c,jump){
 }
 function openLb(id,fromGrid){
   lbList=(fromGrid?cards.filter(k=>!k.hidden):cards);
+  if(!fromGrid&&!lbList.some(k=>k.querySelector('[data-open]').dataset.open===id)){
+    const source=[...document.querySelectorAll('.hero [data-open]')].find(b=>b.dataset.open===id);if(!source)return;
+    const fallback=document.createElement('figure');fallback.dataset.cat=source.dataset.category||'';fallback.append(source.cloneNode(true));
+    const title=document.createElement('span');title.className='t';title.textContent=source.dataset.title||source.querySelector('img').alt;fallback.append(title);lbList=[fallback];
+  }
+  if(!lbList.length)return;
   lbIdx=Math.max(0,lbList.findIndex(k=>k.querySelector('[data-open]').dataset.open===id));
   lastFocus=document.activeElement;
   document.body.style.overflow='hidden';

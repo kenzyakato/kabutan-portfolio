@@ -1,8 +1,15 @@
-import { defineConfig, type MediaUploadOptions } from 'tinacms';
+import { defineConfig, type MediaUploadOptions, type TinaField } from 'tinacms';
 import { installArtistStudio } from './artist-screen';
-import {sectionsInput,newSection} from './section-model.mjs';
+import {sectionsInput,newSection,newQuestion,socialsInput} from './section-model.mjs';
 
 const string = (name: string, label: string, required = false) => ({type:'string' as const,name,label,required});
+const sectionFields=():TinaField[]=>[
+ {...string('id','Internal section ID',true),ui:{component:'hidden'}},string('title','Section title',true),{type:'string',name:'kind',label:'Template',options:[{value:'text',label:'Image & text'},{value:'artwork',label:'Artwork showcase'},{value:'faq',label:'FAQ'}]},
+ {...string('body','Text (plain text)'),ui:{component:'textarea'}},{type:'image',name:'image',label:'Photo',description:'Custom sections: at most 8 MiB, 8192 pixels per side and 32 megapixels. Use My sections for checked uploads.'},string('alt','Photo description'),{type:'boolean',name:'visible',label:'Show on website',required:true},
+ {type:'string',name:'artworkIds',label:'Artwork references',list:true},
+ {type:'object',name:'questions',label:'Questions',list:true,ui:{defaultItem:()=>newQuestion(),itemProps:q=>({label:q?.question})},fields:[string('id','Question ID',true),string('question','Question',true),{...string('answer','Answer',true),ui:{component:'textarea'}},{type:'boolean',name:'visible',label:'Show question'}]}
+];
+const layoutFields=():TinaField[]=>[string('key','Section key',true),{type:'boolean',name:'visible',label:'Show section',required:true}];
 export default defineConfig({
   branch: process.env.TINA_BRANCH || 'main',
   clientId: process.env.TINA_PUBLIC_CLIENT_ID,
@@ -33,12 +40,11 @@ export default defineConfig({
     {
       name:'sections',label:'Custom sections',path:'content',format:'json',match:{include:'sections'},
       ui:{allowedActions:{create:false,delete:false}},fields:[
-        {type:'object',name:'items',label:'Sections (after Gallery, before Commissions)',list:true,ui:{defaultItem:()=>newSection(),itemProps:item=>({label:item?.title}),validate:items=>{try{sectionsInput(items||[]);}catch(error){return (error as Error).message;}}},fields:[
-          {...string('id','Internal section ID',true),ui:{component:'hidden'}},string('title','Section title',true),
-          {...string('body','Text (plain text; line breaks are kept)'),ui:{component:'textarea'}},
-          {type:'image',name:'image',label:'Photo (optional)'},string('alt','Photo description (optional; uses the title if empty)'),
-          {type:'boolean',name:'visible',label:'Show on website',required:true}
-        ]}
+        {type:'object',name:'items',label:'Custom sections',list:true,ui:{defaultItem:()=>newSection(),itemProps:item=>({label:item?.title}),validate:items=>{try{sectionsInput(items||[]);}catch(error){return (error as Error).message;}}},fields:sectionFields()},
+        {type:'object',name:'socials',label:'Social links',list:true,ui:{validate:value=>{try{socialsInput(value||[]);}catch(e){return(e as Error).message;}}},fields:[string('id','Link ID',true),string('name','Platform name',true),string('url','HTTPS link',true),string('label','Button text',true),{type:'boolean',name:'visible',label:'Show link',required:true}]},
+        {type:'object',name:'layout',label:'Page order and visibility',list:true,fields:layoutFields(),ui:{component:'hidden'}},
+        {type:'object',name:'history',label:'Saved section versions',list:true,ui:{component:'hidden'},fields:[string('id','Version ID',true),string('createdAt','Saved at',true),{type:'object',name:'items',label:'Section content',list:true,fields:sectionFields()},{type:'object',name:'layout',label:'Page layout',list:true,fields:layoutFields()}]}
+
       ]
     },
     {

@@ -71,7 +71,7 @@ test('category filters render untrusted labels as text, with correct counts',asy
   const source=await readFile(path.join(root,'templates/index.html'),'utf8');
   const render=source.slice(source.indexOf('function renderFilters(){'),source.indexOf('function setFilter('));
   const malicious='\"><img src=x onerror=alert(1)>';
-  const nodes={filters:null,heroChips:null};
+  const nodes={filters:null,heroChips:null,gallery:{hidden:false}};
   function node(){return {dataset:{},style:{},children:[],textContent:'',setAttribute(k,v){this[k]=String(v)},append(c){this.children.push(c)},replaceChildren(...c){this.children=c},set innerHTML(v){throw Error('Unsafe HTML insertion')}};}
   nodes.filters=node();nodes.heroChips=node();
   runInNewContext(`${render};renderFilters();`,{document:{createElement:node},$:id=>nodes[id],CATS:['All',malicious],TAG:{[malicious]:'#112233'},cards:[{dataset:{cat:malicious}}],filter:'All'});
