@@ -1,8 +1,8 @@
 {
-  "title": "Model base sketch",
-  "category": "VTuber Models",
+  "title": "WIP model for sills_spirits",
+  "visible": false,
   "order": 110,
-  "visible": true,
+  "category": "VTuber Models",
   "image": "/assets/originals/vtuber-02.png",
   "preview": "/assets/previews/vtuber-02.png",
   "alt": "Screenshot of a rough brown sketch of a front-facing long-haired character base with hair buns and a heart ahoge, drawn over a vertical centre guide line."
