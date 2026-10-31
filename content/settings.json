@@ -108,6 +108,13 @@
           "note": "",
           "price": "120 ",
           "detail": ""
+        },
+        {
+          "visible": true,
+          "label": "Chibi",
+          "note": "",
+          "price": "100",
+          "detail": ""
         }
       ],
       "note": "",
